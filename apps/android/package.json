@@ -18,5 +18,8 @@
     "svelte": "catalog:svelte",
     "svelte-check": "catalog:svelte",
     "vite": "catalog:"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.1.1"
   }
 }

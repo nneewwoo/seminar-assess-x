@@ -1,6 +1,6 @@
-import { defineConfig } from 'vite'
 import { sveltekit } from '@sveltejs/kit/vite'
 import { internalIpV4 } from 'internal-ip'
+import { defineConfig } from 'vite'
 
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
