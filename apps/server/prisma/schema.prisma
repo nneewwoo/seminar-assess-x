@@ -1,0 +1,104 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model user {
+  id        Int        @id @default(autoincrement())
+  name      String
+  email     String     @unique
+  password  String
+  address   String?
+  phone     String?    @unique
+  responses response[]
+}
+
+model cycle {
+  id        Int            @id @default(autoincrement())
+  month     Int
+  year      Int
+  active    Boolean        @default(true)
+  seminars  seminar[]
+  responses response[]
+  periods   cycle_period[]
+}
+
+model seminar {
+  id              Int        @id @default(autoincrement())
+  title           String
+  number_of_votes Int        @default(0)
+  cycle           cycle      @relation(fields: [cycle_id], references: [id])
+  cycle_id        Int
+  questions       question[]
+  course          String
+}
+
+model question {
+  id         Int           @id @default(autoincrement())
+  text       String
+  type       question_type
+  seminar    seminar       @relation(fields: [seminar_id], references: [id])
+  seminar_id Int
+  options    option[]
+  responses  response[]
+}
+
+model option {
+  id          Int        @id @default(autoincrement())
+  text        String
+  is_correct  Boolean
+  question    question   @relation(fields: [question_id], references: [id])
+  question_id Int
+  responses   response[]
+}
+
+model response {
+  id                 Int             @id @default(autoincrement())
+  period             response_period
+  user               user            @relation(fields: [user_id], references: [id])
+  user_id            Int
+  question           question        @relation(fields: [question_id], references: [id])
+  question_id        Int
+  selected_option    option?         @relation(fields: [selected_option_id], references: [id])
+  selected_option_id Int?
+  cycle              cycle           @relation(fields: [cycle_id], references: [id])
+  cycle_id           Int
+
+  @@unique([user_id, cycle_id, period])
+}
+
+model cycle_period {
+  id             Int               @id @default(autoincrement())
+  current_period cycle_period_type
+  cycle          cycle             @relation(fields: [cycle_id], references: [id])
+  cycle_id       Int
+  started_at     DateTime          @default(now())
+  ended_at       DateTime?
+
+  @@unique([cycle_id, current_period])
+}
+
+enum cycle_period_type {
+  VOTING
+  PRE_TEST
+  SEMINAR
+  POST_TEST
+  EVAL
+  IDLE
+}
+
+enum response_period {
+  VOTING
+  PRE_TEST
+  POST_TEST
+  EVAL
+}
+
+enum question_type {
+  MULTIPLE_CHOICE
+  EVALUATION
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "tasks": {
+    "package": {
+      "dependsOn": ["^package"],
+      "outputs": ["dist/**"]
+    },
+    "build": {
+      "dependsOn": ["package"],
+      "inputs": ["$TURBO_DEFAULT", ".env*"],
+      "outputs": [
+        ".svelte-kit/**",
+        "!.sveltekit/types",
+        "!.sveltekit/*.d.ts",
+        "dist/**",
+        ".vercel/**"
+      ]
+    },
+    "dev": {
+      "dependsOn": ["package"],
+      "cache": false,
+      "persistent": true
+    }
+  }
+}

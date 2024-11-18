@@ -1,0 +1,13 @@
+node_modules
+target
+release
+
+.env
+.env*
+
+dist
+.turbo
+build
+.svelte-kit
+
+.rust-analyzer

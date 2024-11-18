@@ -1,0 +1,35 @@
+{
+  "name": "root",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=18.20"
+  },
+  "scripts": {
+    "dev:admin": "turbo watch --filter @seminar-assess/admin dev",
+    "dev:server": "turbo watch --filter @seminar-assess/server dev",
+    "dev:android-tauri": "pnpm tauri android dev",
+    "dev:android": "turbo --filter @seminar-assess/android dev",
+    "rustfmt": "cargo +nightly fmt -- --config-path rustfmt-nightly.toml",
+    "build": "turbo run build --no-daemon",
+    "build:android": "turbo run --filter @seminar-assess/android build --no-daemon",
+    "tauri": "cargo tauri"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.15.0",
+    "@types/eslint": "^9.6.1",
+    "@types/eslint__js": "^8.42.3",
+    "@types/node": "^22.9.0",
+    "@typescript-eslint/parser": "^8.14.0",
+    "eslint": "^9.15.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-typescript": "^3.6.3",
+    "eslint-plugin-import-x": "^4.4.2",
+    "eslint-plugin-svelte": "^2.46.0",
+    "prettier": "^3.3.3",
+    "prettier-plugin-svelte": "^3.2.8",
+    "turbo": "^2.3.0",
+    "typescript": "^5.6.3"
+  },
+  "packageManager": "pnpm@9.13.2"
+}
