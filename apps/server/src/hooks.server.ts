@@ -2,6 +2,8 @@ import { error, type Handle } from '@sveltejs/kit'
 import jwt from 'jsonwebtoken'
 
 export const handle: Handle = async ({ event, resolve }) => {
+  event.locals.jwt_secret = process.env.JWT_SECRET as string
+
   if (event.request.method === 'OPTIONS') {
     return new Response(null, {
       headers: {
