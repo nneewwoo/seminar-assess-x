@@ -8,3 +8,5 @@ package
 crates
 
 pnpm-lock.yaml
+
+vite.config.ts.*

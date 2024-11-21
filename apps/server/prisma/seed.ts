@@ -1,15 +1,16 @@
 import {
   PrismaClient,
   cycle_period_type,
-  response_period
+  response_period_type
 } from '@prisma/client'
 
-const prisma = new PrismaClient()
+import prisma from '$lib/prisma'
 
 const main = async () => {
   const user = await prisma.user.create({
     data: {
-      name: 'Owen Garbosa',
+      given_name: 'Owen',
+      family_name: 'Garbosa',
       email: 'owen@garbosa.com',
       password: 'password',
       address: 'Roxas City, Capiz',
@@ -301,17 +302,17 @@ const main = async () => {
     console.log(`Question 5 created: ${question.text}`)
   }
 
-  const response = await prisma.response.create({
-    data: {
-      user_id: user.id,
-      question_id: 1,
-      selected_option_id: 1,
-      period: response_period.VOTING,
-      cycle_id: cycle.id
-    }
-  })
+  // const response = await prisma.response.create({
+  //   data: {
+  //     user_id: user.id,
+  //     question_id: ,
+  //     selected_option_id: ,
+  //     period: response_period_type.VOTING,
+  //     cycle_id: cycle.id
+  //   }
+  // })
 
-  console.log('Response created:', response)
+  // console.log('Response created:', response)
 
   const cyclePeriod = await prisma.cycle_period.create({
     data: {

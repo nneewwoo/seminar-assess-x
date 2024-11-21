@@ -13,3 +13,5 @@ build
 .rust-analyzer
 
 seed.ts
+
+vite.config.ts.timestamp*

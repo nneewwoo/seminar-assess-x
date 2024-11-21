@@ -25,6 +25,5 @@ fn main() {
             .as_str(),
         );
     }
-
     tauri_build::build();
 }

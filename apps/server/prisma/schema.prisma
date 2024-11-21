@@ -8,78 +8,119 @@ generator client {
 }
 
 model user {
-  id        Int        @id @default(autoincrement())
-  name      String
-  email     String     @unique
-  password  String
-  address   String?
-  phone     String?    @unique
-  responses response[]
+  id          String         @id @default(uuid())
+  given_name  String
+  family_name String
+  email       String         @unique
+  password    String
+  address     String?
+  phone       String?        @unique
+  responses   response[]
+  votes       votes[]
+  attendance  attendance[]
+  role        user_role_type @default(USER)
+}
+
+model temp_user {
+  id          String @id @default(uuid())
+  given_name  String
+  family_name String
+  email       String
+  password    String
 }
 
 model cycle {
-  id        Int            @id @default(autoincrement())
-  month     Int
-  year      Int
-  active    Boolean        @default(true)
-  seminars  seminar[]
-  responses response[]
-  periods   cycle_period[]
+  id         String         @id @default(uuid())
+  month      Int
+  year       Int
+  active     Boolean        @default(true)
+  seminars   seminar[]
+  responses  response[]
+  periods    cycle_period[]
+  votes      votes[]
+  attendance attendance[]
 }
 
 model seminar {
-  id              Int        @id @default(autoincrement())
+  id              String       @id @default(uuid())
   title           String
-  number_of_votes Int        @default(0)
-  cycle           cycle      @relation(fields: [cycle_id], references: [id])
-  cycle_id        Int
+  number_of_votes Int          @default(0)
+  cycle           cycle        @relation(fields: [cycle_id], references: [id])
+  cycle_id        String
   questions       question[]
   course          String
+  votes           votes[]
+  attendance      attendance[]
 }
 
 model question {
-  id         Int           @id @default(autoincrement())
+  id         String        @id @default(uuid())
   text       String
   type       question_type
   seminar    seminar       @relation(fields: [seminar_id], references: [id])
-  seminar_id Int
+  seminar_id String
   options    option[]
   responses  response[]
 }
 
 model option {
-  id          Int        @id @default(autoincrement())
+  id          String     @id @default(uuid())
   text        String
   is_correct  Boolean
   question    question   @relation(fields: [question_id], references: [id])
-  question_id Int
+  question_id String
   responses   response[]
 }
 
 model response {
-  id                 Int             @id @default(autoincrement())
-  period             response_period
-  user               user            @relation(fields: [user_id], references: [id])
-  user_id            Int
-  question           question        @relation(fields: [question_id], references: [id])
-  question_id        Int
-  selected_option    option?         @relation(fields: [selected_option_id], references: [id])
-  selected_option_id Int?
-  cycle              cycle           @relation(fields: [cycle_id], references: [id])
-  cycle_id           Int
+  id                 String               @id @default(uuid())
+  period             response_period_type
+  user               user                 @relation(fields: [user_id], references: [id])
+  user_id            String
+  question           question             @relation(fields: [question_id], references: [id])
+  question_id        String
+  selected_option    option?              @relation(fields: [selected_option_id], references: [id])
+  selected_option_id String?
+  cycle              cycle                @relation(fields: [cycle_id], references: [id])
+  cycle_id           String
 
   @@unique([user_id, cycle_id, period])
 }
 
 model cycle_period {
-  id             Int               @id @default(autoincrement())
+  id             String            @id @default(uuid())
   current_period cycle_period_type
   cycle          cycle             @relation(fields: [cycle_id], references: [id])
-  cycle_id       Int
+  cycle_id       String
   started_at     DateTime          @default(now())
   ended_at       DateTime?
 
   @@unique([cycle_id, current_period])
+}
+
+model votes {
+  id         String  @id @default(uuid())
+  user       user    @relation(fields: [user_id], references: [id])
+  user_id    String
+  seminar    seminar @relation(fields: [seminar_id], references: [id])
+  seminar_id String
+  cycle      cycle   @relation(fields: [cycle_id], references: [id])
+  cycle_id   String
+
+  @@unique([user_id, seminar_id, cycle_id])
+}
+
+model attendance {
+  id         String  @id @default(uuid())
+  user       user    @relation(fields: [user_id], references: [id])
+  user_id    String
+  seminar    seminar @relation(fields: [seminar_id], references: [id])
+  seminar_id String
+  cycle      cycle   @relation(fields: [cycle_id], references: [id])
+  cycle_id   String
+  attended   Boolean @default(false)
+
+  @@unique([user_id, seminar_id, cycle_id])
 }
 
 enum cycle_period_type {
@@ -91,7 +132,7 @@ enum cycle_period_type {
   IDLE
 }
 
-enum response_period {
+enum response_period_type {
   VOTING
   PRE_TEST
   POST_TEST
@@ -101,4 +142,9 @@ enum response_period {
 enum question_type {
   MULTIPLE_CHOICE
   EVALUATION
+}
+
+enum user_role_type {
+  ADMIN
+  USER
 }

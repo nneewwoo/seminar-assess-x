@@ -66,7 +66,7 @@ export default ts.config(
           ignore: ['^\\$lib', '^\\$app', '^\\$env']
         }
       ],
-      'import-x/no-relative-packages': 'error', // Don't allow packages to have relative imports between each other
+      // 'import-x/no-relative-packages': 'error', // Don't allow packages to have relative imports between each other
       'func-style': [2, 'expression'],
       'no-return-await': 'off',
       'svelte/no-at-html-tags': 'off',

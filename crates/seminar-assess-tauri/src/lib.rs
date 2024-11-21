@@ -2,7 +2,7 @@
 pub fn run() {
     let context = tauri::generate_context!();
 
-    let builder = tauri::Builder::default().plugin(tauri_plugin_http::init());
+    let builder = tauri::Builder::default();
 
     builder
         .run(context)
