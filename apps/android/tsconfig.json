@@ -19,6 +19,7 @@
     "vite.config.ts",
     "src/**/*.js",
     "src/**/*.ts",
+    "src/**/*.d.ts",
     "src/**/*.svelte",
     "tailwind.config.js",
     "postcss.config.js"

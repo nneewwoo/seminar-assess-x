@@ -124,5 +124,4 @@
       ? `${timeRemaining.days}days, ${timeRemaining.hours} hours, ${timeRemaining.seconds} seconds until voting ends`
       : 'Vote'}</md-filled-button
   >
-  >
 </div>

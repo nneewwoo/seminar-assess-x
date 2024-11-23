@@ -20,5 +20,6 @@ export default defineConfig(async () => ({
       host: await internalIpV4(),
       port: 1421
     }
-  }
+  },
+  envPrefix: ['VITE_', 'TAURI_']
 }))

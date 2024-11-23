@@ -37,6 +37,9 @@ export const load: PageLoad = async ({ fetch }) => {
     case 'EVAL': {
       return redirect(302, '/protected/evaluatin')
     }
+    case 'VOTING': {
+      return redirect(302, '/protected/vote')
+    }
   }
   const seminarListRes = await fetch(`${API_URL}/protected/seminar-list`, {
     method: 'POST',
