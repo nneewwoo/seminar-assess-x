@@ -2,66 +2,78 @@
   import '@material/web/textfield/outlined-text-field'
   import '@material/web/button/filled-button'
   import '@material/web/button/text-button'
-  import { goto } from '$app/navigation'
+
+  import { page } from '$app/stores'
   import { api } from '$lib/axios-instance'
-  import { useLocalStorage } from '$lib/utils'
-  import { AxiosError } from 'axios'
+  import { z } from 'zod'
+  import { navigateTo } from '$lib/utils'
+  import { goto } from '$app/navigation'
 
-  let email = $state('')
+  type Response = { error: z.ZodIssue[] | string; name?: string }
 
-  let errorMessage = $state('')
+  let emailError = $state('')
 
-  const handleNext = async () => {
+  const handleSubmit = async (event: SubmitEvent) => {
+    const formData = new FormData(event.target as HTMLFormElement)
+    const email = formData.get('email') as string
+    emailError = ''
+
     try {
-      const res = await api.post('/account/signin/steps/email', {
-        email: email.trim()
+      const res = await api.post<Response>('/account/signin/steps/email', {
+        email
       })
-      if (res && res.status === 200) {
-        useLocalStorage('set', 'email', email)
-        useLocalStorage('set', 'given_name', res.data.body.given_name)
-        useLocalStorage('set', 'user_id', res.data.body.id)
-        goto('/account/signin/steps/password')
+
+      if (res.success) {
+        navigateTo('/account/signin/steps/password', {
+          params: { email, name: res.body?.name || '' }
+        })
+      }
+
+      if (res.body) {
+        if (Array.isArray(res.body?.error)) {
+          res.body?.error.forEach((issue) => {
+            switch (issue.path[0]) {
+              case 'email':
+                emailError = issue.message
+                break
+            }
+          })
+        } else {
+          emailError = res.body.error
+        }
       }
     } catch (error) {
-      if (error instanceof AxiosError) {
-        errorMessage = error.response?.data.message
-      }
+      console.error('API call failed:', error)
     }
   }
 </script>
 
-<div class="flex-1 flex flex-col gap-y-6">
-  <div class="gap-y-4 flex flex-col py-4">
-    <div>
-      <h1>Sign in</h1>
-    </div>
-    <div><span>Enter your email address</span></div>
+<div class="flex-1 flex flex-col">
+  <div class="mb-8">
+    <h1>Sign in</h1>
+    <span class="text-xl">Enter your email address</span>
   </div>
-  <div class="gap-y-4 flex flex-col">
+  <form class="gap-y-4 flex flex-col" onsubmit={handleSubmit}>
     <div>
       <md-outlined-text-field
-        onchange={(e: Event) => (email = (e.target as HTMLInputElement).value)}
         label="Email address"
+        name="email"
         class="w-full"
         autocomplete="email"
         type="email"
-        error={errorMessage}
-        error-text={errorMessage}
+        error={emailError}
+        error-text={emailError}
       ></md-outlined-text-field>
     </div>
-  </div>
-  <div class="w-full flex justify-between">
-    <!-- svelte-ignore a11y_click_events_have_key_events -->
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <md-text-button
-      onclick={() => goto('/account/signup/steps/name')}
-      class="-ml-3"
-      type="submit">Register</md-text-button
-    >
-    <!-- svelte-ignore a11y_click_events_have_key_events -->
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <md-filled-button onclick={handleNext} class="" type="submit"
-      >Next</md-filled-button
-    >
-  </div>
+    <div class="w-full flex justify-between">
+      <!-- svelte-ignore a11y_click_events_have_key_events -->
+      <!-- svelte-ignore a11y_no_static_element_interactions -->
+      <md-text-button
+        onclick={() => goto('/account/signup/steps/name')}
+        class="-ml-3"
+        type="button">Register</md-text-button
+      >
+      <md-filled-button type="submit">Next</md-filled-button>
+    </div>
+  </form>
 </div>

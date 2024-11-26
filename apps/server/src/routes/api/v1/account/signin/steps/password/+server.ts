@@ -1,29 +1,30 @@
 import prisma from '$lib/prisma'
-import { error, type RequestHandler } from '@sveltejs/kit'
-import jwt from 'jsonwebtoken'
-import bcrypt from 'bcrypt'
-import { JsonResponse } from '$lib/utils'
+import { json, type RequestHandler } from '@sveltejs/kit'
+import { verify } from '@node-rs/argon2'
+import * as auth from '$lib/auth'
 
-const POST: RequestHandler = async ({ request, locals }) => {
+const POST: RequestHandler = async ({ request }) => {
   const { email, password } = await request.json()
 
   const user = await prisma.user.findUnique({ where: { email } })
 
-  if (!user) throw error(401, 'Oops! Something went wrong. Please try again.')
-
-  const isPasswordValid = await bcrypt.compare(password, user.password)
-
-  if (!isPasswordValid) throw error(401, 'Password is incorrect')
-
-  const token = jwt.sign(
-    { id: user.id, email: user.email },
-    locals.jwt_secret,
-    {
-      expiresIn: '72h'
+  if (user) {
+    const valid = await verify(user.password, password, { algorithm: 2 })
+    if (valid) {
+      const token = auth.generateSessionToken()
+      auth.createSession(token, user.id)
+      return json({ success: true, body: { token } })
+    } else {
+      return json({ success: false, body: { error: 'Invalid password' } })
     }
-  )
-
-  return JsonResponse('Signin successful', { token })
+  } else {
+    return json({
+      success: false,
+      body: {
+        error: 'Could not find user'
+      }
+    })
+  }
 }
 
 export { POST }

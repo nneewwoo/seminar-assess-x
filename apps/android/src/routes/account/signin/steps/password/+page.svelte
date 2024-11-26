@@ -2,66 +2,69 @@
   import '@material/web/textfield/outlined-text-field'
   import '@material/web/button/filled-button'
   import '@material/web/button/text-button'
-  import { goto } from '$app/navigation'
+
+  import { page } from '$app/stores'
   import { api } from '$lib/axios-instance'
-  import { useLocalStorage } from '$lib/utils'
-  import { AxiosError } from 'axios'
+  import { z } from 'zod'
+  import { navigateTo, useLocalStorage } from '$lib/utils'
+  import { goto } from '$app/navigation'
 
-  let password = $state('')
+  type Response = { error: string; token: string }
 
-  const name = useLocalStorage('get', 'given_name') || 'user'
-  const email = useLocalStorage('get', 'email') || 'user'
+  let passwordError = $state('')
+  let show = $state(false)
 
-  let errorMessage = $state('')
+  const name = $page.url.searchParams.get('name') as string
+  const email = $page.url.searchParams.get('email') as string
 
-  const handleNext = async () => {
+  const handleSubmit = async (event: SubmitEvent) => {
+    const formData = new FormData(event.target as HTMLFormElement)
+    const password = formData.get('password') as string
+    passwordError = ''
+
+    if (!password) {
+      return (passwordError = 'Password is required to continue')
+    }
+
     try {
-      const res = await api.post('/account/signin/steps/password', {
+      const res = await api.post<Response>('/account/signin/steps/password', {
         email,
         password
       })
-      if (res && res.status === 200) {
-        useLocalStorage('remove', 'email')
-        useLocalStorage('remove', 'given_name')
-        useLocalStorage('set', 'jwt_token', res.data.body.token)
-        goto('/')
+
+      if (res.success) {
+        useLocalStorage('set', 'session-token', res.body?.token)
+        navigateTo('/')
+      }
+
+      if (res.body) {
+        passwordError = res.body.error
       }
     } catch (error) {
-      if (error instanceof AxiosError) {
-        if ((error.response?.data.message as string).includes('Oops')) {
-          return goto('/account/signin/steps/oops')
-        }
-        errorMessage = error.response?.data.message
-      }
+      console.error('API call failed:', error)
     }
   }
 </script>
 
-<div class="flex-1 flex flex-col gap-y-6">
-  <div class="gap-y-4 flex flex-col py-4">
-    <div>
-      <h1>Welcome, {name}</h1>
-    </div>
-    <div><span>Enter your password to continue</span></div>
+<div class="flex-1 flex flex-col">
+  <div class="mb-8">
+    <h1>Welcome, {name}</h1>
+    <span class="text-xl">Enter your password to continue</span>
   </div>
-  <div class="gap-y-4 flex flex-col">
+  <form class="gap-y-4 flex flex-col" onsubmit={handleSubmit}>
     <div>
+      <input type="hidden" name="email" value={email} />
       <md-outlined-text-field
-        onchange={(e: Event) =>
-          (password = (e.target as HTMLInputElement).value)}
         label="Password"
+        name="password"
         class="w-full"
-        type="password"
-        error={errorMessage}
-        error-text={errorMessage}
+        type={show ? 'text' : 'password'}
+        error={passwordError}
+        error-text={passwordError}
       ></md-outlined-text-field>
     </div>
-  </div>
-  <div class="w-full flex justify-end">
-    <!-- svelte-ignore a11y_click_events_have_key_events -->
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <md-filled-button onclick={handleNext} class="" type="submit"
-      >Next</md-filled-button
-    >
-  </div>
+    <div class="w-full flex justify-end">
+      <md-filled-button type="submit">Next</md-filled-button>
+    </div>
+  </form>
 </div>

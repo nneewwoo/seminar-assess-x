@@ -1,0 +1,304 @@
+.prose {
+  line-height: 1.75;
+  word-wrap: break-word;
+
+  :first-child {
+    margin-top: 0;
+  }
+
+  :last-child {
+    margin-bottom: 0;
+  }
+
+  pre,
+  code,
+  kbd,
+  samp,
+  pre tt {
+    font-family: Consolas, Courier, 'Courier New', monospace;
+  }
+
+  caption {
+    text-align: left;
+  }
+
+  [draggable],
+  [draggable='true'] {
+    cursor: move;
+  }
+
+  [draggable='false'] {
+    cursor: inherit;
+  }
+
+  p,
+  ul,
+  ol,
+  dl,
+  form {
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  small {
+    font-size: 0.875rem;
+  }
+
+  strong {
+    font-weight: 600;
+  }
+
+  blockquote {
+    margin: 1.6rem 2rem;
+    padding-left: 1rem;
+    border-left: 4px solid var(--md-sys-color-surface-variant);
+  }
+
+  @media only screen and (max-width: 599.98px) {
+    blockquote {
+      margin: 1.6rem 0;
+    }
+  }
+
+  blockquote footer {
+    font-size: 86%;
+    color: var(--md-sys-color-on-surface-variant);
+  }
+
+  mark {
+    color: inherit;
+    background-color: var(--md-sys-color-secondary-container);
+    border-bottom: 1px solid var(--md-sys-color-secondary);
+    margin: 0 6px;
+    padding: 2px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 400;
+  }
+
+  h1 small,
+  h2 small,
+  h3 small,
+  h4 small,
+  h5 small,
+  h6 small {
+    font-weight: inherit;
+    font-size: 65%;
+    color: var(--md-sys-color-on-surface-variant);
+  }
+
+  h1 strong,
+  h2 strong,
+  h3 strong,
+  h4 strong,
+  h5 strong,
+  h6 strong {
+    font-weight: 600;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+    line-height: 1.1111;
+  }
+
+  h2 {
+    font-size: 1.875rem;
+    margin-top: 2.25rem;
+    margin-bottom: 1.125rem;
+    line-height: 1.3333;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+
+  h4 {
+    font-size: 1.25rem;
+    margin-top: 1.875rem;
+    margin-bottom: 0.875rem;
+    line-height: 1.5;
+  }
+
+  hr + *,
+  h2 + *,
+  h3 + *,
+  h4 + * {
+    margin-top: 0;
+  }
+
+  code,
+  kbd {
+    font-size: 0.875rem;
+    color: var(--md-sys-color-on-surface-container);
+    background-color: rgba(var(--md-sys-color-surface-variant), 0.28);
+    padding: 2px 6px;
+    border-radius: var(--md-sys-color-shape-corner-extra-small);
+  }
+
+  kbd {
+    font-size: 0.9rem;
+  }
+
+  abbr[title] {
+    text-decoration: none;
+    cursor: help;
+    border-bottom: 1px dotted var(--md-sys-color-on-surface-variant);
+  }
+
+  ins,
+  u {
+    text-decoration: none;
+    border-bottom: 1px solid var(--md-sys-color-on-surface-variant);
+  }
+
+  del {
+    text-decoration: line-through;
+  }
+
+  hr {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    border: none;
+    border-bottom: 1px solid var(--md-sys-color-surface-variant);
+  }
+
+  pre {
+    margin-top: 1.7143rem;
+    margin-bottom: 1.7143rem;
+  }
+
+  pre code {
+    padding: 0.8571rem 1.1429rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    background-color: var(--md-sys-color-surface-container);
+    color: var(--md-sys-color-on-surface-container);
+    border-radius: var(--md-sys-color-shape-corner-extra-small);
+  }
+
+  ol,
+  ul {
+    padding-left: 1.625rem;
+  }
+
+  ul {
+    list-style-type: disc;
+  }
+
+  ol {
+    list-style-type: decimal;
+  }
+
+  ol[type='A'] {
+    list-style-type: upper-alpha;
+  }
+
+  ol[type='a'] {
+    list-style-type: lower-alpha;
+  }
+
+  ol[type='I'] {
+    list-style-type: upper-roman;
+  }
+
+  ol[type='i'] {
+    list-style-type: lower-roman;
+  }
+
+  ol[type='1'] {
+    list-style-type: decimal;
+  }
+
+  li {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  ol > li,
+  ul > li {
+    padding-left: 0.375rem;
+  }
+
+  ol > li > p,
+  ul > li > p {
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  ol > li > :first-child,
+  ul > li > :first-child {
+    margin-top: 1.25rem;
+  }
+
+  ol > li > :last-child,
+  ul > li > :last-child {
+    margin-bottom: 1.25rem;
+  }
+
+  ol > li::marker {
+    font-weight: 400;
+    color: var(--md-sys-color-on-surface-variant);
+  }
+
+  ul > li::marker {
+    color: var(--md-sys-color-on-surface-variant);
+  }
+
+  ul ul,
+  ul ol,
+  ol ul,
+  ol ol {
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  fieldset,
+  img {
+    border: none;
+  }
+
+  img,
+  video,
+  figure {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    max-width: 100%;
+  }
+
+  figure > * {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  figcaption {
+    font-size: 0.875rem;
+    line-height: 1.4286;
+    margin-top: 0.8571rem;
+    color: var(--md-sys-color-on-surface-variant);
+  }
+
+  figcaption:rempty::before {
+    z-index: -1;
+    cursor: text;
+    content: attr(placeholder);
+    color: var(--md-sys-color-on-surface-variant);
+  }
+
+  table {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border: 1px solid var(--md-sys-color-surface-variant);
+    border-radius: var(--md-sys-color-shape-corner-large);
+  }
+}

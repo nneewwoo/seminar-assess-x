@@ -1,31 +1,50 @@
+import * as auth from '$lib/auth'
 import { error, type Handle } from '@sveltejs/kit'
-import jwt from 'jsonwebtoken'
+import { sequence } from '@sveltejs/kit/hooks'
 
-export const handle: Handle = async ({ event, resolve }) => {
-  event.locals.jwt_secret = process.env.JWT_SECRET as string
+const handleAuth: Handle = async ({ event, resolve }) => {
+  if (!event.url.pathname.startsWith('/api/v1/account')) {
+    const sessionToken = event.request.headers
+      .get('Authorization')
+      ?.split(' ')[1]
+    console.log(event.request.headers)
 
-  if (event.request.method === 'OPTIONS') {
-    return new Response(null, {
-      headers: {
-        'Access-Control-Allow-Methods':
-          'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Authorization, Content-Type',
-        'Access-Control-Max-Age': '3600'
-      }
-    })
+    if (!sessionToken) {
+      event.locals.user = null
+      event.locals.session = null
+
+      throw error(401, 'Unauthorized: Missing token')
+    }
+
+    const { session, user } = await auth.validateSessionToken(sessionToken!)
+    if (session) {
+      event.locals.user = user
+      event.locals.session = session
+    } else {
+      throw error(401, 'Unauthorized: Invalid or expired token')
+    }
+  }
+  return resolve(event)
+}
+
+const corsHeaders = {
+  'Access-Control-Allow-Credentials': 'true',
+  'Access-Control-Allow-Origin': 'http://192.168.254.105:1420',
+  'Access-Control-Allow-Methods': 'OPTIONS,POST',
+  'Access-Control-Allow-Headers':
+    'authorization, x-client-info, apikey, X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+}
+
+const handleCors: Handle = async ({ event, resolve }) => {
+  if (event.request.method !== 'OPTIONS') {
+    const response = await resolve(event)
+    for (const [key, value] of Object.entries(corsHeaders)) {
+      response.headers.set(key, value)
+    }
+    return response
   }
 
-  const response = await resolve(event)
-  response.headers.set('Access-Control-Allow-Origin', '*')
-  response.headers.set(
-    'Access-Control-Allow-Headers',
-    'Authorization, Content-Type'
-  )
-  response.headers.set(
-    'Access-Control-Allow-Methods',
-    'GET, POST, PUT, DELETE, PATCH, OPTIONS'
-  )
-  response.headers.set('Access-Control-Max-Age', '3600')
-  return response
+  return new Response('OK', { headers: corsHeaders, status: 200 })
 }
+
+export const handle = sequence(handleAuth, handleCors)

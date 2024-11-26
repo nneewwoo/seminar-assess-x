@@ -1,48 +1,41 @@
 import prisma from '$lib/prisma'
-import { JsonResponse } from '$lib/utils'
-import { type RequestHandler } from '@sveltejs/kit'
+import { json, type RequestHandler } from '@sveltejs/kit'
 import { z } from 'zod'
 
 const POST: RequestHandler = async ({ request }) => {
-  const { password, confirm_password, temp_userid } = await request.json()
-
-  const passwordValidation = z
-    .object({
-      password: z
-        .string()
-        .min(8, { message: 'Password must be at least 8 characters long' }),
-      confirm_password: z.string()
-    })
-    .refine((data) => data.password === data.confirm_password, {
-      message: 'Passwords do not match. Try again.'
-    })
+  const { email, givenName, familyName, password, confirm } =
+    await request.json()
 
   try {
-    if (passwordValidation.parse({ password, confirm_password })) {
-      const tempuser = await prisma.temp_user.update({
-        where: { id: temp_userid },
-        data: { password }
+    const valid = z
+      .object({
+        password: z
+          .string()
+          .min(8, { message: 'Password must be at least 8 characters long' }),
+        confirm: z.string().min(1, { message: 'Please confirm your password' })
       })
+      .refine((data) => data.password === data.confirm, {
+        message: 'Passwords do not match. Try again.'
+      })
+      .parse({ password, confirm })
 
-      const user = await prisma.user.create({
+    if (valid) {
+      await prisma.user.create({
         data: {
-          email: tempuser.email,
-          password: tempuser.password,
-          given_name: tempuser.given_name,
-          family_name: tempuser.family_name
+          email,
+          password,
+          givenName,
+          familyName
         }
       })
-
-      await prisma.temp_user.delete({ where: { id: temp_userid } })
-
-      return JsonResponse('New user created', { user_id: user.id })
+      return json({ success: true })
     }
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return JsonResponse(error.errors[0].message, null, 400)
+      return json({ success: false, body: { error: error.errors } })
     }
   }
-  return JsonResponse('Oops something went wrong', null, 400)
+  return json({ success: false, error: 'unknown' })
 }
 
 export { POST }

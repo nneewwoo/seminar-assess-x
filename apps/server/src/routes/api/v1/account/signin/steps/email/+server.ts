@@ -1,18 +1,39 @@
 import prisma from '$lib/prisma'
-import { error, type RequestHandler } from '@sveltejs/kit'
-import { JsonResponse } from '$lib/utils'
+import { json, type RequestHandler } from '@sveltejs/kit'
+import { z } from 'zod'
 
 const POST: RequestHandler = async ({ request }) => {
   const { email } = await request.json()
 
-  const user = await prisma.user.findUnique({
-    where: { email },
-    select: { given_name: true, id: true }
-  })
+  try {
+    const valid = z
+      .object({
+        email: z
+          .string()
+          .email({ message: 'Please enter a valid email address' })
+      })
+      .parse({ email })
 
-  if (!user) throw error(401, 'Could not find user with that email')
+    if (valid) {
+      const user = await prisma.user.findUnique({ where: { email } })
 
-  return JsonResponse('User email OK', user)
+      if (user) {
+        return json({ success: true, body: { name: user.givenName } })
+      } else {
+        return json({
+          success: false,
+          body: {
+            error: 'Could not find user with that email'
+          }
+        })
+      }
+    }
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return json({ success: false, body: { error: error.errors } })
+    }
+  }
+  return json({ success: false, error: 'unknown' })
 }
 
 export { POST }

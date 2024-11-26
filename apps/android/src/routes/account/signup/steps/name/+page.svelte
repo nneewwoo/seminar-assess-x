@@ -2,59 +2,80 @@
   import '@material/web/textfield/outlined-text-field'
   import '@material/web/button/filled-button'
   import { api } from '$lib/axios-instance'
+  import { z } from 'zod'
   import { goto } from '$app/navigation'
-  import { TEMP_USER_ID } from '$lib/store'
+  import { navigateTo } from '$lib/utils'
 
-  let firstName = $state('')
-  let lastName = $state('')
+  type ErrorResponse = { error: z.ZodIssue[] }
 
-  const handleNext = async () => {
-    const res = await api.post('/account/signup/steps/name', {
-      given_name: firstName.trim(),
-      family_name: lastName.trim()
-    })
+  let givenNameError = $state('')
+  let familyNameError = $state('')
 
-    if (res && res.data.message === 'Temp-user created') {
-      TEMP_USER_ID.set(res.data.body.user_id)
-      goto('/account/signup/steps/email')
+  const handleSubmit = async (event: SubmitEvent) => {
+    const formData = new FormData(event.target as HTMLFormElement)
+    const givenName = formData.get('givenName') as string
+    const familyName = formData.get('familyName') as string
+    givenNameError = ''
+    familyNameError = ''
+
+    try {
+      const res = await api.post<ErrorResponse>('/account/signup/steps/name', {
+        givenName,
+        familyName
+      })
+
+      if (res.success) {
+        navigateTo('/account/signup/steps/email', {
+          params: { givenName, familyName }
+        })
+      }
+
+      res.body?.error.forEach((issue) => {
+        switch (issue.path[0]) {
+          case 'givenName':
+            givenNameError = issue.message
+            break
+          case 'familyName':
+            familyNameError = issue.message
+            break
+        }
+      })
+    } catch (error) {
+      console.error('API call failed:', error)
     }
   }
 </script>
 
-<div class="flex-1 flex flex-col gap-y-6">
-  <div class="gap-y-4 flex flex-col py-4">
-    <div>
-      <h1>Sign up and get started</h1>
-    </div>
-    <div><span>Enter your name</span></div>
+<div class="flex-1 flex flex-col">
+  <div class="mb-8">
+    <h1>Sign up and get started</h1>
+    <span class="text-xl">Enter your name</span>
   </div>
-  <div class="gap-y-4 flex flex-col">
+  <form class="gap-y-4 flex flex-col" onsubmit={handleSubmit}>
     <div>
       <md-outlined-text-field
-        onchange={(e: Event) =>
-          (firstName = (e.target as HTMLInputElement).value)}
         label="First name"
+        name="givenName"
         class="w-full"
         autocomplete="first-name"
         type="text"
+        error={givenNameError}
+        error-text={givenNameError}
       ></md-outlined-text-field>
     </div>
     <div>
       <md-outlined-text-field
-        onchange={(e: Event) =>
-          (lastName = (e.target as HTMLInputElement).value)}
         label="Last name"
+        name="familyName"
         class="w-full"
         autocomplete="last-name"
         type="text"
+        error={familyNameError}
+        error-text={familyNameError}
       ></md-outlined-text-field>
     </div>
-  </div>
-  <div class="w-full flex justify-end">
-    <!-- svelte-ignore a11y_click_events_have_key_events -->
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <md-filled-button onclick={handleNext} class="" type="submit"
-      >Next</md-filled-button
-    >
-  </div>
+    <div class="w-full flex justify-end">
+      <md-filled-button type="submit">Next</md-filled-button>
+    </div>
+  </form>
 </div>

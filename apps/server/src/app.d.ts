@@ -4,8 +4,8 @@ declare global {
   namespace App {
     // interface Error {}
     interface Locals {
-      jwt_secret: string
-      user: { id: string; email: string }
+      user: import('$lib/server/auth').SessionValidationResult['user']
+      session: import('$lib/server/auth').SessionValidationResult['session']
     }
     // interface PageData {}
     // interface PageState {}
