@@ -16,8 +16,6 @@ class AInstance {
       (config) => {
         const token = useLocalStorage('get', 'session-token')
         if (token) {
-          config.headers['Content-Type'] = 'application/json'
-          config.withCredentials = true
           config.headers['Authorization'] = `Bearer ${token}`
         }
         return config

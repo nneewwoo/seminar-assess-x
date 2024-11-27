@@ -5,6 +5,6 @@ import type { PageLoad } from './$types'
 export const load: PageLoad = async () => {
   const token = useLocalStorage('get', 'session-token')
   if (!token) {
-    // redirect(302, '/account/signin/steps/email')
+    redirect(302, '/account/signin/steps/email')
   }
 }

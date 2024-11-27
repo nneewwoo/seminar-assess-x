@@ -28,9 +28,10 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 }
 
 const corsHeaders = {
+  'Access-Control-Allow-Origin': 'http://192.168.254.102:1420',
+  'Access-Control-Max-Age': '3600',
   'Access-Control-Allow-Credentials': 'true',
-  'Access-Control-Allow-Origin': 'http://192.168.254.105:1420',
-  'Access-Control-Allow-Methods': 'OPTIONS,POST',
+  'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,DELETE',
   'Access-Control-Allow-Headers':
     'authorization, x-client-info, apikey, X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
 }
