@@ -158,7 +158,6 @@ jobs:
         shell: bash
         run: |
           ./scripts/release.sh \
-            --sign \
             --channel                    ${{ env.channel }}" \
             --dist                       "./release" \
             --version                    ${{ env.version}}"
