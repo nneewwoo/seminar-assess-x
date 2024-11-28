@@ -122,25 +122,25 @@ jobs:
           node-version: 18
           cache: pnpm
 
-      - name: setup Rust nightly
+      - name: setup rust nightly
         uses: actions-rust-lang/setup-rust-toolchain@v1
 
-      - name: setup Java
+      - name: setup java
         if: matrix.mobile
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Setup Android SDK (Android only)
+      - name: setup android SDK
         if: matrix.mobile
         uses: android-actions/setup-android@v3
 
-      - name: Install NDK (Android only)
+      - name: setup android NDK
         if: matrix.mobile
         run: sdkmanager "ndk;27.0.11902837"
 
-      - name: setup Android signing (Android only)
+      - name: setup android signing key
         if: matrix.mobile
         run: |
           cd crates/seminar-assess-tauri/gen/android
@@ -158,9 +158,9 @@ jobs:
         shell: bash
         run: |
           ./scripts/release.sh \
-            --channel                    ${{ env.channel }}" \
+            --channel                    "${{ env.channel }}" \
             --dist                       "./release" \
-            --version                    ${{ env.version}}"
+            --version                    "${{ env.version }}"
 
       - name: upload artifacts
         uses: actions/upload-artifact@v4
