@@ -36,6 +36,7 @@ jobs:
         shell: bash
         run: |
           echo "channel=${{ github.event.inputs.channel || 'dev' }}" >> $GITHUB_ENV
+          echo "bump=${{ github.event.inputs.bump || 'patch' }}" >> $GITHUB_ENV
 
       - name: calculate next version
         shell: bash
