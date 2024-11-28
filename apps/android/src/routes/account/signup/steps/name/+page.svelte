@@ -1,7 +1,6 @@
 <script lang="ts">
   import '@material/web/textfield/outlined-text-field'
   import '@material/web/button/filled-button'
-  import { api } from '$lib/axios-instance'
   import { z } from 'zod'
   import { goto } from '$app/navigation'
   import { navigateTo } from '$lib/utils'

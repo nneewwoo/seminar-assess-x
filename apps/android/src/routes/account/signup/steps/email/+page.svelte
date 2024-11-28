@@ -2,7 +2,6 @@
   import '@material/web/textfield/outlined-text-field'
   import '@material/web/button/filled-button'
   import { page } from '$app/stores'
-  import { api } from '$lib/axios-instance'
   import { z } from 'zod'
   import { navigateTo } from '$lib/utils'
   import { type IResponse } from '$lib/types'
