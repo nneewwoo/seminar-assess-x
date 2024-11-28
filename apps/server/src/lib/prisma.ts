@@ -1,28 +1,39 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, type User } from '@prisma/client'
 import bcrypt from 'bcrypt'
+import { hash } from '@node-rs/argon2'
 
-const prisma = new PrismaClient().$extends({
-  query: {
-    user: {
-      async $allOperations({ operation, args, query }) {
-        if (
-          ['create', 'update'].includes(operation) &&
-          'data' in args &&
-          (args.data as any)['password']
-        ) {
-          if ('password' in (args.data as any)) {
-            if (typeof (args.data as any).password === 'string') {
-              ;(args.data as any)['password'] = bcrypt.hashSync(
-                (args.data as { password: string }).password,
-                10
-              )
+declare global {
+  var __prisma: import('@prisma/client').PrismaClient
+}
+
+const prisma =
+  globalThis.__prisma ||
+  new PrismaClient().$extends({
+    query: {
+      user: {
+        async $allOperations({ operation, args, query }) {
+          if (
+            ['create', 'update'].includes(operation) &&
+            'data' in args &&
+            (args.data as User)['password']
+          ) {
+            if ('password' in (args.data as User)) {
+              if (typeof (args.data as User).password === 'string') {
+                ;(args.data as User)['password'] = await hash(
+                  (args.data as { password: string }).password,
+                  { algorithm: 2 }
+                )
+              }
             }
           }
+          return await query(args)
         }
-        return await query(args)
       }
     }
-  }
-})
+  })
+
+if (process.env.NODE_ENV === 'development') {
+  globalThis.__prisma = prisma
+}
 
 export default prisma

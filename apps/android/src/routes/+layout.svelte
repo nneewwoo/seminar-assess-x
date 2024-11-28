@@ -1,7 +1,10 @@
 <script lang="ts">
-  import '../app.css'
+  import '$lib/styles/index.css'
+  import '$lib/styles/prose.css'
+
+  let { children } = $props()
 </script>
 
-<main class="prose">
-  <slot />
+<main class="prose p-8 h-screen w-screen flex flex-col">
+  {@render children()}
 </main>

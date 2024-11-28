@@ -1,20 +1,26 @@
-import prisma from '$lib/prisma'
-import { JsonResponse } from '$lib/utils'
-import { type RequestHandler } from '@sveltejs/kit'
+import { json, type RequestHandler } from '@sveltejs/kit'
+import { z } from 'zod'
 
 const POST: RequestHandler = async ({ request }) => {
-  const { given_name, family_name } = await request.json()
+  const { givenName, familyName } = await request.json()
 
-  const user = await prisma.temp_user.create({
-    data: {
-      given_name,
-      family_name,
-      email: '',
-      password: ''
+  try {
+    const valid = z
+      .object({
+        givenName: z.string().min(1, { message: 'First name is required' }),
+        familyName: z.string().min(1, { message: 'Last name is required' })
+      })
+      .parse({ givenName, familyName })
+
+    if (valid) {
+      return json({ success: true })
     }
-  })
-
-  return JsonResponse('Temp-user created', { user_id: user.id }, 201)
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return json({ success: false, body: { error: error.errors } })
+    }
+  }
+  return json({ success: false, error: 'unknown' })
 }
 
 export { POST }

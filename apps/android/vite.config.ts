@@ -1,9 +1,9 @@
 import { sveltekit } from '@sveltejs/kit/vite'
-import { internalIpV4 } from 'internal-ip'
+import { internalIpV4Sync } from 'internal-ip'
 import { defineConfig } from 'vite'
 
 // https://vitejs.dev/config/
-export default defineConfig(async () => ({
+export default defineConfig({
   plugins: [sveltekit()],
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
@@ -12,14 +12,34 @@ export default defineConfig(async () => ({
   clearScreen: false,
   // 2. tauri expects a fixed port, fail if that port is not available
   server: {
+    cors: {
+      origin: 'http://192.168.254.102:5174',
+      methods: ['OPTIONS', 'POST', 'GET', 'DELETE'],
+      credentials: true,
+      maxAge: 3600,
+      allowedHeaders: [
+        'Authorization',
+        'x-client-info',
+        'apikey',
+        'X-CSRF-Token',
+        'X-Requested-With',
+        'Accept',
+        'Accept-Version',
+        'Content-Length',
+        'Content-MD5',
+        'Content-Type',
+        'Date',
+        'X-Api-Version'
+      ]
+    },
     port: 1420,
     strictPort: true,
     host: true,
     hmr: {
       protocol: 'ws',
-      host: await internalIpV4(),
+      host: internalIpV4Sync(),
       port: 1421
     }
   },
   envPrefix: ['VITE_', 'TAURI_']
-}))
+})

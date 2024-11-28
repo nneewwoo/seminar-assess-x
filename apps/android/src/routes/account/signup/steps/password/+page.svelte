@@ -3,71 +3,104 @@
   import '@material/web/button/filled-button'
   import '@material/web/checkbox/checkbox'
   import { api } from '$lib/axios-instance'
-  import { goto } from '$app/navigation'
-  import { TEMP_USER_ID } from '$lib/store'
-  import { AxiosError } from 'axios'
+  import { z } from 'zod'
+  import { navigateTo } from '$lib/utils'
+  import { page } from '$app/stores'
+  import { type IResponse } from '$lib/types'
 
-  let password = $state('')
-  let confirm = $state('')
+  type ErrorResponse = { error: z.ZodIssue[] }
+
+  let passwordError = $state('')
+  let confirmError = $state('')
+  let customError = $state('')
 
   let show = $state(false)
 
-  let errorMessage = $state('')
+  const givenName = $page.url.searchParams.get('givenName') as string
+  const familyName = $page.url.searchParams.get('familyName') as string
+  const email = $page.url.searchParams.get('email') as string
 
-  const handleNext = async () => {
-    if (password === '') {
-      return (errorMessage = 'Enter your password')
+  const handleSubmit = async (event: SubmitEvent) => {
+    const formData = new FormData(event.target as HTMLFormElement)
+    const password = formData.get('password') as string
+    const confirm = formData.get('confirm') as string
+    passwordError = ''
+    confirmError = ''
+
+    if (!password) {
+      return (passwordError = 'Password is required')
     }
-    if (confirm === '') {
-      return (errorMessage = 'Confirm your password')
+
+    if (!confirm) {
+      return (confirmError = 'Please confirm your password')
     }
-    await api
-      .post('/account/signup/steps/password', {
-        password: password,
-        confirm_password: confirm,
-        temp_userid: $TEMP_USER_ID
-      })
-      .then((res) => {
-        if (res && res.status === 200) {
-          TEMP_USER_ID.set('')
-          goto('/account/signup/steps/done')
+
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/account/signup/steps/password`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            givenName,
+            familyName,
+            email,
+            password,
+            confirm
+          })
         }
-      })
-      .catch((err) => {
-        if (err instanceof AxiosError) {
-          errorMessage = err.response?.data.message
+      )
+
+      const data = (await res.json()) as IResponse<ErrorResponse>
+
+      if (data.success) {
+        navigateTo('/account/signup/steps/done')
+      }
+
+      data.body?.error.forEach((issue) => {
+        switch (issue.path[0]) {
+          case 'password':
+            passwordError = issue.message
+            break
+          case 'confirm':
+            confirmError = issue.message
+            break
         }
+        customError = issue.message
       })
+    } catch (error) {
+      console.error('API call failed:', error)
+    }
   }
 </script>
 
-<div class="flex-1 flex flex-col gap-y-6">
-  <div class="gap-y-4 flex flex-col py-4">
-    <div>
-      <h1>Create a strong password</h1>
-    </div>
-    <div><span>Your password must be unique and hard to guess</span></div>
+<div class="flex-1 flex flex-col">
+  <div class="mb-8">
+    <h1>Create a strong password</h1>
+    <span>Your password must be unique and hard to guess</span>
   </div>
-  <div class="gap-y-4 flex flex-col">
+  <form class="gap-y-4 flex flex-col" onsubmit={handleSubmit}>
     <div>
+      <input type="hidden" name="givenName" value={givenName} />
+      <input type="hidden" name="familyName" value={familyName} />
+      <input type="hidden" name="email" value={email} />
       <md-outlined-text-field
-        onchange={(e: Event) =>
-          (password = (e.target as HTMLInputElement).value)}
         label="Password"
+        name="password"
         class="w-full"
         type={show ? 'text' : 'password'}
-        error={errorMessage}
+        error={passwordError}
+        error-text={passwordError}
       ></md-outlined-text-field>
     </div>
     <div>
       <md-outlined-text-field
-        onchange={(e: Event) =>
-          (confirm = (e.target as HTMLInputElement).value)}
         label="Confirm"
+        name="confirm"
         class="w-full"
         type={show ? 'text' : 'password'}
-        error={errorMessage}
-        error-text={errorMessage}
+        error={confirmError || customError}
+        error-text={confirmError || customError}
       ></md-outlined-text-field>
       <div class="flex pt-2 relative h-8">
         <md-checkbox
@@ -82,12 +115,8 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="w-full flex justify-end">
-    <!-- svelte-ignore a11y_click_events_have_key_events -->
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <md-filled-button onclick={handleNext} class="" type="submit"
-      >Next</md-filled-button
-    >
-  </div>
+    <div class="w-full flex justify-end">
+      <md-filled-button type="submit">Next</md-filled-button>
+    </div>
+  </form>
 </div>

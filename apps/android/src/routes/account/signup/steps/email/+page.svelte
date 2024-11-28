@@ -1,56 +1,81 @@
 <script lang="ts">
-  import { goto } from '$app/navigation'
+  import '@material/web/textfield/outlined-text-field'
+  import '@material/web/button/filled-button'
+  import { page } from '$app/stores'
   import { api } from '$lib/axios-instance'
-  import { TEMP_USER_ID } from '$lib/store'
-  import { AxiosError } from 'axios'
+  import { z } from 'zod'
+  import { navigateTo } from '$lib/utils'
+  import { type IResponse } from '$lib/types'
 
-  let email = $state('')
-  let errorMessage = $state('')
+  type ErrorResponse = { error: z.ZodIssue[] | string }
 
-  const handleNext = async () => {
-    await api
-      .post('/account/signup/steps/email', {
-        email: email.trim(),
-        temp_userid: $TEMP_USER_ID
-      })
-      .then((res) => {
-        if (res && res.status === 200) {
-          goto('/account/signup/steps/password')
+  let emailError = $state('')
+
+  const givenName = $page.url.searchParams.get('givenName') as string
+  const familyName = $page.url.searchParams.get('familyName') as string
+
+  const handleSubmit = async (event: SubmitEvent) => {
+    const formData = new FormData(event.target as HTMLFormElement)
+    const email = formData.get('email') as string
+    emailError = ''
+
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/account/signup/steps/email`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
         }
-      })
-      .catch((err) => {
-        if (err instanceof AxiosError) {
-          errorMessage = err.response?.data.message
+      )
+
+      const data = (await res.json()) as IResponse<ErrorResponse>
+
+      if (data.success) {
+        navigateTo('/account/signup/steps/password', {
+          params: { givenName, familyName, email }
+        })
+      }
+      if (res.body) {
+        if (Array.isArray(data.body?.error)) {
+          data.body?.error.forEach((issue) => {
+            switch (issue.path[0]) {
+              case 'email':
+                emailError = issue.message
+                break
+            }
+          })
+        } else {
+          emailError = data.body?.error as string
         }
-      })
+      }
+    } catch (error) {
+      console.error('API call failed:', error)
+    }
   }
 </script>
 
-<div class="flex-1 flex flex-col gap-y-6">
-  <div class="gap-y-4 flex flex-col py-4">
-    <div>
-      <h1>What's your email?</h1>
-    </div>
-    <div><span>Enter a valid email address</span></div>
+<div class="flex-1 flex flex-col">
+  <div class="mb-8">
+    <h1>What&apos;s your email?</h1>
+    <span class="text-xl">Enter a valid email address</span>
   </div>
-  <div class="gap-y-4 flex flex-col">
+  <form class="gap-y-4 flex flex-col" onsubmit={handleSubmit}>
     <div>
+      <input type="hidden" name="givenName" value={givenName} />
+      <input type="hidden" name="familyName" value={familyName} />
       <md-outlined-text-field
-        onchange={(e: Event) => (email = (e.target as HTMLInputElement).value)}
         label="Email address"
+        name="email"
         class="w-full"
         autocomplete="email"
         type="email"
-        error={errorMessage}
-        error-text={errorMessage}
+        error={emailError}
+        error-text={emailError}
       ></md-outlined-text-field>
     </div>
-  </div>
-  <div class="w-full flex justify-end">
-    <!-- svelte-ignore a11y_click_events_have_key_events -->
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <md-filled-button onclick={handleNext} class="" type="submit"
-      >Next</md-filled-button
-    >
-  </div>
+    <div class="w-full flex justify-end">
+      <md-filled-button type="submit">Next</md-filled-button>
+    </div>
+  </form>
 </div>
