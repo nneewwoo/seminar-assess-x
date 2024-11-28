@@ -138,7 +138,9 @@ jobs:
 
       - name: setup android NDK
         if: matrix.mobile
-        run: sdkmanager "ndk;27.0.11902837"
+        run: |
+          sdkmanager "ndk;27.0.11902837"
+          echo "NDK_HOME=$HOME/Android/Sdk/ndk/27.0.11902837" >> $GITHUB_ENV
 
       - name: setup android signing key
         if: matrix.mobile
