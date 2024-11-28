@@ -1,10 +1,6 @@
 name: 'Build'
 
 on:
-  push:
-    branches:
-      - dev
-
   workflow_dispatch:
     inputs:
       channel:
@@ -141,8 +137,8 @@ jobs:
       - name: setup android NDK
         if: matrix.mobile
         run: |
-          sdkmanager "ndk;27.0.11902837"
-          echo "NDK_HOME=$ANDROID_HOME/ndk/27.0.11902837" >> $GITHUB_ENV
+          sdkmanager "ndk;28.0.12433566"
+          echo "NDK_HOME=$ANDROID_HOME/ndk/28.0.12433566" >> $GITHUB_ENV
 
       - name: setup android signing key
         if: matrix.mobile
