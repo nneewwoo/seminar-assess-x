@@ -5,6 +5,7 @@
   import { z } from 'zod'
   import { goto } from '$app/navigation'
   import { navigateTo } from '$lib/utils'
+  import { type IResponse } from '$lib/types'
 
   type ErrorResponse = { error: z.ZodIssue[] }
 
@@ -19,18 +20,24 @@
     familyNameError = ''
 
     try {
-      const res = await api.post<ErrorResponse>('/account/signup/steps/name', {
-        givenName,
-        familyName
-      })
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/account/signup/steps/name`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ givenName, familyName })
+        }
+      )
 
-      if (res.success) {
+      const data = (await res.json()) as IResponse<ErrorResponse>
+
+      if (data.success) {
         navigateTo('/account/signup/steps/email', {
           params: { givenName, familyName }
         })
       }
 
-      res.body?.error.forEach((issue) => {
+      data.body?.error.forEach((issue) => {
         switch (issue.path[0]) {
           case 'givenName':
             givenNameError = issue.message

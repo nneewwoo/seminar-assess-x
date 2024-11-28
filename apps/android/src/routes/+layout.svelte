@@ -5,6 +5,6 @@
   let { children } = $props()
 </script>
 
-<main class="prose">
+<main class="prose p-8 h-screen w-screen flex flex-col">
   {@render children()}
 </main>

@@ -5,6 +5,7 @@
   import { api } from '$lib/axios-instance'
   import { z } from 'zod'
   import { navigateTo } from '$lib/utils'
+  import { type IResponse } from '$lib/types'
 
   type ErrorResponse = { error: z.ZodIssue[] | string }
 
@@ -19,18 +20,25 @@
     emailError = ''
 
     try {
-      const res = await api.post<ErrorResponse>('/account/signup/steps/email', {
-        email
-      })
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/account/signup/steps/email`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        }
+      )
 
-      if (res.success) {
+      const data = (await res.json()) as IResponse<ErrorResponse>
+
+      if (data.success) {
         navigateTo('/account/signup/steps/password', {
           params: { givenName, familyName, email }
         })
       }
       if (res.body) {
-        if (Array.isArray(res.body?.error)) {
-          res.body?.error.forEach((issue) => {
+        if (Array.isArray(data.body?.error)) {
+          data.body?.error.forEach((issue) => {
             switch (issue.path[0]) {
               case 'email':
                 emailError = issue.message
@@ -38,7 +46,7 @@
             }
           })
         } else {
-          emailError = res.body.error
+          emailError = data.body?.error as string
         }
       }
     } catch (error) {

@@ -6,6 +6,7 @@
   import { z } from 'zod'
   import { navigateTo } from '$lib/utils'
   import { page } from '$app/stores'
+  import { type IResponse } from '$lib/types'
 
   type ErrorResponse = { error: z.ZodIssue[] }
 
@@ -35,22 +36,28 @@
     }
 
     try {
-      const res = await api.post<ErrorResponse>(
-        '/account/signup/steps/password',
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/account/signup/steps/password`,
         {
-          givenName,
-          familyName,
-          email,
-          password,
-          confirm
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            givenName,
+            familyName,
+            email,
+            password,
+            confirm
+          })
         }
       )
 
-      if (res.success) {
+      const data = (await res.json()) as IResponse<ErrorResponse>
+
+      if (data.success) {
         navigateTo('/account/signup/steps/done')
       }
 
-      res.body?.error.forEach((issue) => {
+      data.body?.error.forEach((issue) => {
         switch (issue.path[0]) {
           case 'password':
             passwordError = issue.message
@@ -59,7 +66,7 @@
             confirmError = issue.message
             break
         }
-        confirmError = issue.message
+        customError = issue.message
       })
     } catch (error) {
       console.error('API call failed:', error)
@@ -92,8 +99,8 @@
         name="confirm"
         class="w-full"
         type={show ? 'text' : 'password'}
-        error={confirmError}
-        error-text={confirmError}
+        error={confirmError || customError}
+        error-text={confirmError || customError}
       ></md-outlined-text-field>
       <div class="flex pt-2 relative h-8">
         <md-checkbox

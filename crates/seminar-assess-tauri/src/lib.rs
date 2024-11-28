@@ -5,6 +5,7 @@ pub fn run() {
     let builder = tauri::Builder::default();
 
     builder
+        .plugin(tauri_plugin_shell::init())
         .run(context)
         .expect("error while running tauri application");
 }

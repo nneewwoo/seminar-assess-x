@@ -8,6 +8,7 @@
   import { z } from 'zod'
   import { navigateTo } from '$lib/utils'
   import { goto } from '$app/navigation'
+  import type { IResponse } from '$lib/types'
 
   type Response = { error: z.ZodIssue[] | string; name?: string }
 
@@ -19,19 +20,26 @@
     emailError = ''
 
     try {
-      const res = await api.post<Response>('/account/signin/steps/email', {
-        email
-      })
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/account/signin/steps/email`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        }
+      )
 
-      if (res.success) {
+      const data = (await res.json()) as IResponse<Response>
+
+      if (data.success) {
         navigateTo('/account/signin/steps/password', {
-          params: { email, name: res.body?.name || '' }
+          params: { email, name: data.body?.name || '' }
         })
       }
 
       if (res.body) {
-        if (Array.isArray(res.body?.error)) {
-          res.body?.error.forEach((issue) => {
+        if (Array.isArray(data.body?.error)) {
+          data.body?.error.forEach((issue) => {
             switch (issue.path[0]) {
               case 'email':
                 emailError = issue.message
@@ -39,7 +47,7 @@
             }
           })
         } else {
-          emailError = res.body.error
+          emailError = data.body?.error as string
         }
       }
     } catch (error) {

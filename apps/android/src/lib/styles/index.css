@@ -5,11 +5,8 @@
 @tailwind utilities;
 
 * {
-  @apply font-[Gilroy,_sans-serif] select-none;
-}
-
-body {
-  @apply p-8;
+  @apply font-[Gilroy,_sans-serif] select-none 
+  bg-[var(--md-sys-color-background)] text-[var(--md-sys-color-on-background)];
 }
 
 :root {
