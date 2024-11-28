@@ -94,6 +94,7 @@ jobs:
         shell: bash
         run: |
           echo "channel=${{ github.event.inputs.channel || 'dev' }}" >> $GITHUB_ENV
+          echo "bump=${{ github.event.inputs.bump || 'patch' }}" >> $GITHUB_ENV
 
       - name: calculate next version
         shell: bash
@@ -185,7 +186,9 @@ jobs:
         shell: bash
         run: |
           echo "channel=${{ github.event.inputs.channel || 'dev' }}" >> $GITHUB_ENV
-      - name: Download artifacts
+          echo "bump=${{ github.event.inputs.bump || 'patch' }}" >> $GITHUB_ENV
+
+      - name: download artifacts
         uses: actions/download-artifact@v4
         with:
           name: '${{ needs.build-tauri.outputs.channel }}-${{ matrix.platform }}-${{ github.run_number }}'
