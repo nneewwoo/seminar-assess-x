@@ -16,7 +16,7 @@ jobs:
         include:
           - platform: 'ubuntu-22.04'
             android: true
-            args: '--apk'
+            args: '--apk --config crates/seminar-assess-tauri/tauri.conf.release.json'
             mobile: true
 
     runs-on: ${{ matrix.platform }}
