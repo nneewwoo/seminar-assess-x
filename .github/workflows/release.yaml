@@ -55,7 +55,10 @@ jobs:
           node-version: 18
           cache: pnpm
 
-      - name: build android frontend
+      - name: install frontend dependencies
+        run: pnpm install
+
+      - name: build frontend
         run: pnpm build:android -- --mode production
 
       - name: upload build output
