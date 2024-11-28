@@ -41,7 +41,7 @@ jobs:
           cache: 'pnpm' # Set this to npm, yarn or pnpm.
 
       - name: Setup Rust nightly
-        uses: actions/setup-rust@v1
+        uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           rust-toolchain: true
           targets: |
