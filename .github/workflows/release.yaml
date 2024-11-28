@@ -29,6 +29,8 @@ on:
 jobs:
   build-sveltekit:
     runs-on: ubuntu-latest
+    env:
+      VITE_API_URL: ${{ secrets.VITE_API_URL }}
     steps:
       - uses: actions/checkout@v4
 
@@ -140,7 +142,7 @@ jobs:
         if: matrix.mobile
         run: |
           sdkmanager "ndk;27.0.11902837"
-          echo "NDK_HOME=$HOME/Android/Sdk/ndk/27.0.11902837" >> $GITHUB_ENV
+          echo "NDK_HOME=$ANDROID_HOME/ndk/27.0.11902837" >> $GITHUB_ENV
 
       - name: setup android signing key
         if: matrix.mobile
