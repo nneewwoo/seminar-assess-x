@@ -3,14 +3,6 @@ name: 'Build'
 on:
   workflow_dispatch:
     inputs:
-      channel:
-        type: choice
-        required: true
-        description: channel
-        default: dev
-        options:
-          - release
-          - dev
       bump:
         type: choice
         required: true
@@ -33,7 +25,6 @@ jobs:
       - name: consume vars
         shell: bash
         run: |
-          echo "channel=${{ github.event.inputs.channel || 'dev' }}" >> $GITHUB_ENV
           echo "bump=${{ github.event.inputs.bump || 'patch' }}" >> $GITHUB_ENV
 
       - name: calculate next version
@@ -86,7 +77,6 @@ jobs:
 
     outputs:
       platform: ${{ matrix.platform }}
-      channel: ${{ env.channel }}
 
     steps:
       - uses: actions/checkout@v4
@@ -94,7 +84,6 @@ jobs:
       - name: consume vars
         shell: bash
         run: |
-          echo "channel=${{ github.event.inputs.channel || 'dev' }}" >> $GITHUB_ENV
           echo "bump=${{ github.event.inputs.bump || 'patch' }}" >> $GITHUB_ENV
 
       - name: calculate next version
@@ -161,14 +150,13 @@ jobs:
         shell: bash
         run: |
           ./scripts/release.sh \
-            --channel                    "${{ env.channel }}" \
             --dist                       "./release" \
             --version                    "${{ env.version }}"
 
       - name: upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: '${{ env.channel }}-${{ matrix.platform }}-${{ github.run_number }}'
+          name: ${{ matrix.platform }}-${{ github.run_number }}'
           path: release/
           if-no-files-found: error
 
@@ -190,7 +178,6 @@ jobs:
       - name: consume vars
         shell: bash
         run: |
-          echo "channel=${{ github.event.inputs.channel || 'dev' }}" >> $GITHUB_ENV
           echo "bump=${{ github.event.inputs.bump || 'patch' }}" >> $GITHUB_ENV
 
       - name: calculate next version
@@ -199,12 +186,14 @@ jobs:
           CURRENT_VERSION="$(curl -s "https://api.github.com/repos/nneewwoo/seminar-assess/tags" | jq -r 'if . == [] then "0.0.0" else .[0].name end')"
           NEXT_VERSION=$(./scripts/next.sh "${CURRENT_VERSION}" "${{ env.bump }}")
           echo "version=$NEXT_VERSION" >> $GITHUB_ENV
-          mkdir -p release && echo "$NEXT_VERSION" > release/version
+
+      - name: create release directory
+        run: mkdir -p release
 
       - name: download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: '${{ needs.build-tauri.outputs.channel }}-${{ matrix.platform }}-${{ github.run_number }}'
+          name: '${{ matrix.platform }}-${{ github.run_number }}'
           path: ./release
 
       - name: list artifacts

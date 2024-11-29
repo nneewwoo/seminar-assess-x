@@ -18,7 +18,6 @@ function help() {
   echo "flags:" 1>&"$to"
   echo "	--version                                            release version." 1>&"$to"
   echo "	--dist                                               path to store artifacts in." 1>&"$to"
-  echo "	--channel                                            the channel to use for the release (release | nightly)." 1>&"$to"
   echo "	--help                                               display this message." 1>&"$to"
 }
 
@@ -56,11 +55,6 @@ while [[ $# -gt 0 ]]; do
     shift
     shift
     ;;
-  --channel)
-    CHANNEL="$2"
-    shift
-    shift
-    ;;
   *)
     error "unknown flag $1"
     ;;
@@ -69,23 +63,14 @@ done
 
 [ -z "${VERSION-}" ] && error "--version is not set"
 
-if [ "$CHANNEL" != "release" ] && [ "$CHANNEL" != "dev" ]; then
-  error "--channel must be either 'release' or 'dev'"
-fi
-
 info "building:"
-info "	channel: $CHANNEL"
 info "	version: $VERSION"
 info "	dist: $DIST"
 
 TMP_DIR="$(mktemp -d)"
 trap 'rm -rf "$TMP_DIR"' exit
 
-if [ "$CHANNEL" == "release" ]; then
-  CONFIG_PATH=$(readlink -f "$PWD/../crates/seminar-assess-tauri/tauri.conf.release.json")
-else
-  CONFIG_PATH=$(readlink -f "$PWD/../crates/seminar-assess-tauri/tauri.conf.json")
-fi
+CONFIG_PATH=$(readlink -f "$PWD/../crates/seminar-assess-tauri/tauri.conf.release.json")
 
 jq '.version="'"$VERSION"'"' "$CONFIG_PATH" >"$TMP_DIR/tauri.conf.json"
 
@@ -94,7 +79,7 @@ tauri android build \
   --config "$TMP_DIR/tauri.conf.json"
 
 BUNDLE_DIR=$(readlink -f "$PWD/../crates/seminar-assess-tauri/gen/android/app/build/outputs/")
-RELEASE_DIR="$DIST/android"
+RELEASE_DIR="$DIST/"
 mkdir -p "$RELEASE_DIR"
 
 APKS="$(find "$BUNDLE_DIR/apk" -name "*release.apk")"
