@@ -13,7 +13,7 @@
     "rustfmt": "cargo +nightly fmt -- --config-path rustfmt-nightly.toml",
     "build": "turbo run build --no-daemon",
     "build:android": "turbo run --filter @seminar-assess/android build --no-daemon",
-    "tauri": "cargo tauri",
+    "tauri": "tauri",
     "lint": "eslint . && prettier --check .",
     "format": "prettier --write ."
   },

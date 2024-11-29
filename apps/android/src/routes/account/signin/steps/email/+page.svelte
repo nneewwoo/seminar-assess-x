@@ -4,7 +4,6 @@
   import '@material/web/button/text-button'
 
   import { page } from '$app/stores'
-  import { api } from '$lib/axios-instance'
   import { z } from 'zod'
   import { navigateTo } from '$lib/utils'
   import { goto } from '$app/navigation'
