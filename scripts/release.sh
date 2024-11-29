@@ -37,7 +37,7 @@ CONFIG_PATH=""
 DIST="release"
 
 function tauri() {
-  (cd "$PWD/.." && pnpm dlx @tauri-apps/cli "$@")
+  (cd "$PWD/.." && pnpm tauri "$@")
 }
 
 while [[ $# -gt 0 ]]; do
