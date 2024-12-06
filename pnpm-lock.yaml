@@ -10,9 +10,6 @@ catalogs:
       specifier: 5.4.11
       version: 5.4.11
   svelte:
-    '@sveltejs/adapter-auto':
-      specifier: 3.3.1
-      version: 3.3.1
     '@sveltejs/adapter-static':
       specifier: 3.0.6
       version: 3.0.6
@@ -123,6 +120,9 @@ importers:
       axios:
         specifier: ^1.7.7
         version: 1.7.7
+      mdui:
+        specifier: ^2.1.3
+        version: 2.1.3
       zod:
         specifier: ^3.23.8
         version: 3.23.8
@@ -169,6 +169,9 @@ importers:
       '@oslojs/encoding':
         specifier: ^1.1.0
         version: 1.1.0
+      '@oslojs/otp':
+        specifier: ^1.0.0
+        version: 1.0.0
       '@prisma/client':
         specifier: 5.22.0
         version: 5.22.0(prisma@5.22.0)
@@ -551,6 +554,9 @@ packages:
     resolution: {integrity: sha512-2b/g5hRmpbb1o4GnTZax9N9m0FXzz9OV42ZzI4rDDMDuHUqigAiQCEWChBWCY4ztAGVRjoWT19v0yMmc5/L5kA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
+  '@floating-ui/utils@0.2.8':
+    resolution: {integrity: sha512-kym7SodPp8/wloecOpcmSnWJsK7M0E5Wg8UcFA+uO4B9s5d0ywXOEro/8HM9x0rW+TljRzul/14UYz3TleT3ig==}
+
   '@fontsource/inter@5.1.0':
     resolution: {integrity: sha512-zKZR3kf1G0noIes1frLfOHP5EXVVm0M7sV/l9f/AaYf+M/DId35FO4LkigWjqWYjTJZGgplhdv4cB+ssvCqr5A==}
 
@@ -599,6 +605,9 @@ packages:
   '@lit-labs/ssr-dom-shim@1.2.1':
     resolution: {integrity: sha512-wx4aBmgeGvFmOKucFKY+8VFJSYZxs9poN3SDNQFF6lT6NrQUnHiPB2PWz2sc4ieEcAaYYzN+1uWahEeTq2aRIQ==}
 
+  '@lit/localize@0.12.2':
+    resolution: {integrity: sha512-Qv9kvgJKDq/JVSwXOxuWvQnnOBysHA99ti9im9a4fImCmx+fto+XXcUYQbjZHqiueEEc4V20PcRDPO+1g/6seQ==}
+
   '@lit/reactive-element@2.0.4':
     resolution: {integrity: sha512-GFn91inaUa2oHLak8awSIigYz0cU0Payr1rcFsrkf5OJ5eSPxElyZfKh0f2p9FsTiZWXQdWGJeXZICEfXXYSXQ==}
 
@@ -606,8 +615,17 @@ packages:
     resolution: {integrity: sha512-Yhlar6v9WQgUp/He7BdgzOz8lqMQ8sU+jkCq7Wx8Myc5YFJLbEe7lgui/V7G1qB1DJykHSGwreceSaD60Y0PUQ==}
     hasBin: true
 
+  '@material/material-color-utilities@0.3.0':
+    resolution: {integrity: sha512-ztmtTd6xwnuh2/xu+Vb01btgV8SQWYCaK56CkRK8gEkWe5TuDyBcYJ0wgkMRn+2VcE9KUmhvkz+N9GHrqw/C0g==}
+
   '@material/web@2.2.0':
     resolution: {integrity: sha512-k1Pi7f04qDRkHfIEdcnL++udN+x5Oq34R47n0Fk7Xo49uz9aKb6ZkO42jC6uvMH0ahOiFDktX9txHgYMDvNa+A==}
+
+  '@mdui/jq@3.0.2':
+    resolution: {integrity: sha512-Er6cvAgW4RrjWrMBJDnajIiPD99EPYmAWyIgQURhUtO2V1NQQ80oLDo9ILllMoj1idsi1G4EQEqOEdinlH85DQ==}
+
+  '@mdui/shared@1.0.7':
+    resolution: {integrity: sha512-rs12tndL8Y4cy8eiGnkWvKMTHOTbwtHpfpFrPvnUm6ajLnAAaHjX7CJkOMjs5sh7cd+ez2Zm77MEgovKAWeeRQ==}
 
   '@napi-rs/wasm-runtime@0.2.5':
     resolution: {integrity: sha512-kwUxR7J9WLutBbulqg1dfOrMTwhMdXLdcGUhcbCcGwnPLt3gz19uHVdwH1syKVDbE022ZS2vZxOWflFLS0YTjw==}
@@ -721,11 +739,20 @@ packages:
   '@oslojs/binary@1.0.0':
     resolution: {integrity: sha512-9RCU6OwXU6p67H4NODbuxv2S3eenuQ4/WFLrsq+K/k682xrznH5EVWA7N4VFk9VYVcbFtKqur5YQQZc0ySGhsQ==}
 
+  '@oslojs/crypto@1.0.0':
+    resolution: {integrity: sha512-dVz8TkkgYdr3tlwxHd7SCYGxoN7ynwHLA0nei/Aq9C+ERU0BK+U8+/3soEzBUxUNKYBf42351DyJUZ2REla50w==}
+
   '@oslojs/crypto@1.0.1':
     resolution: {integrity: sha512-7n08G8nWjAr/Yu3vu9zzrd0L9XnrJfpMioQcvCMxBIiF5orECHe5/3J0jmXRVvgfqMm/+4oxlQ+Sq39COYLcNQ==}
 
+  '@oslojs/encoding@1.0.0':
+    resolution: {integrity: sha512-dyIB0SdZgMm5BhGwdSp8rMxEFIopLKxDG1vxIBaiogyom6ZqH2aXPb6DEC2WzOOWKdPSq1cxdNeRx2wAn1Z+ZQ==}
+
   '@oslojs/encoding@1.1.0':
     resolution: {integrity: sha512-70wQhgYmndg4GCPxPPxPGevRKqTIJ2Nh4OkiMWmDAVYsTQ+Ta7Sq+rPevXyXGdzr30/qZBnyOalCszoMxlyldQ==}
+
+  '@oslojs/otp@1.0.0':
+    resolution: {integrity: sha512-w/vZfoVsFCCcmsmsXVsIMoWbvr1IZmQ9BsDZwdePSpe8rFKMD1Knd+05iJr415adXkFVyu0tYxgrLPYMynNtXQ==}
 
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -1152,6 +1179,9 @@ packages:
   chownr@2.0.0:
     resolution: {integrity: sha512-bIomtDF5KGpdogkLd9VspvFzk9KfpyyGlS8YFVZl7TGPBHL5snIOnxeshwVgPteQ9b4Eydl+pVbIyE1DcvCWgQ==}
     engines: {node: '>=10'}
+
+  classcat@5.0.5:
+    resolution: {integrity: sha512-JhZUT7JFcQy/EzW605k/ktHtncoo9vnyW/2GspNYwFlN1C/WmjuV/xtS04e9SOkL2sTdw0VAZ2UGCcQ9lR6p6w==}
 
   color-convert@2.0.1:
     resolution: {integrity: sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==}
@@ -1617,6 +1647,9 @@ packages:
     resolution: {integrity: sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==}
     engines: {node: '>=0.12.0'}
 
+  is-promise@4.0.0:
+    resolution: {integrity: sha512-hvpoI6korhJMnej285dSg6nu1+e6uxs7zG3BYAm5byqDsgJNWwxzM6z6iZiAgQR4TJ30JmBTOwqZUw3WlyH3AQ==}
+
   is-reference@3.0.3:
     resolution: {integrity: sha512-ixkJoqQvAP88E6wLydLGGqCJsrFUnqoH6HnaczB8XmDH1oaWU+xxdptvikTgaEhtZ53Ky6YXiBuUI2WXLMCwjw==}
 
@@ -1764,6 +1797,9 @@ packages:
   make-dir@3.1.0:
     resolution: {integrity: sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==}
     engines: {node: '>=8'}
+
+  mdui@2.1.3:
+    resolution: {integrity: sha512-rBaFJYPloaWcHSem9PCD3AT3nyjO072M9HCOGifGxmhVE0QYABtzdiActf9BvgbTMOrIPdlCyPKF+JVW/b6G4Q==}
 
   merge-stream@2.0.0:
     resolution: {integrity: sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==}
@@ -2136,6 +2172,9 @@ packages:
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
+
+  ssr-window@4.0.2:
+    resolution: {integrity: sha512-ISv/Ch+ig7SOtw7G2+qkwfVASzazUnvlDTwypdLoPoySv+6MqlOV10VwPSE6EWkGjhW50lUmghPmpYZXMu/+AQ==}
 
   stable-hash@0.0.4:
     resolution: {integrity: sha512-LjdcbuBeLcdETCrPn9i8AYAZ1eCtu4ECAWtP7UleOiZ9LzVxRzzUZEoZ8zB24nhkQnDWyET0I+3sWokSDS3E7g==}
@@ -2615,6 +2654,8 @@ snapshots:
     dependencies:
       levn: 0.4.1
 
+  '@floating-ui/utils@0.2.8': {}
+
   '@fontsource/inter@5.1.0': {}
 
   '@humanfs/core@0.19.1': {}
@@ -2658,6 +2699,10 @@ snapshots:
 
   '@lit-labs/ssr-dom-shim@1.2.1': {}
 
+  '@lit/localize@0.12.2':
+    dependencies:
+      lit: 3.2.1
+
   '@lit/reactive-element@2.0.4':
     dependencies:
       '@lit-labs/ssr-dom-shim': 1.2.1
@@ -2677,9 +2722,24 @@ snapshots:
       - encoding
       - supports-color
 
+  '@material/material-color-utilities@0.3.0': {}
+
   '@material/web@2.2.0':
     dependencies:
       lit: 3.2.1
+      tslib: 2.8.1
+
+  '@mdui/jq@3.0.2':
+    dependencies:
+      ssr-window: 4.0.2
+      tslib: 2.8.1
+
+  '@mdui/shared@1.0.7':
+    dependencies:
+      '@lit/reactive-element': 2.0.4
+      '@mdui/jq': 3.0.2
+      lit: 3.2.1
+      ssr-window: 4.0.2
       tslib: 2.8.1
 
   '@napi-rs/wasm-runtime@0.2.5':
@@ -2770,12 +2830,25 @@ snapshots:
 
   '@oslojs/binary@1.0.0': {}
 
+  '@oslojs/crypto@1.0.0':
+    dependencies:
+      '@oslojs/asn1': 1.0.0
+      '@oslojs/binary': 1.0.0
+
   '@oslojs/crypto@1.0.1':
     dependencies:
       '@oslojs/asn1': 1.0.0
       '@oslojs/binary': 1.0.0
 
+  '@oslojs/encoding@1.0.0': {}
+
   '@oslojs/encoding@1.1.0': {}
+
+  '@oslojs/otp@1.0.0':
+    dependencies:
+      '@oslojs/binary': 1.0.0
+      '@oslojs/crypto': 1.0.0
+      '@oslojs/encoding': 1.0.0
 
   '@pkgjs/parseargs@0.11.0':
     optional: true
@@ -3220,6 +3293,8 @@ snapshots:
       readdirp: 4.0.2
 
   chownr@2.0.0: {}
+
+  classcat@5.0.5: {}
 
   color-convert@2.0.1:
     dependencies:
@@ -3728,6 +3803,8 @@ snapshots:
 
   is-number@7.0.0: {}
 
+  is-promise@4.0.0: {}
+
   is-reference@3.0.3:
     dependencies:
       '@types/estree': 1.0.6
@@ -3852,6 +3929,20 @@ snapshots:
   make-dir@3.1.0:
     dependencies:
       semver: 6.3.1
+
+  mdui@2.1.3:
+    dependencies:
+      '@floating-ui/utils': 0.2.8
+      '@lit/localize': 0.12.2
+      '@lit/reactive-element': 2.0.4
+      '@material/material-color-utilities': 0.3.0
+      '@mdui/jq': 3.0.2
+      '@mdui/shared': 1.0.7
+      classcat: 5.0.5
+      is-promise: 4.0.0
+      lit: 3.2.1
+      ssr-window: 4.0.2
+      tslib: 2.8.1
 
   merge-stream@2.0.0: {}
 
@@ -4166,6 +4257,8 @@ snapshots:
       totalist: 3.0.1
 
   source-map-js@1.2.1: {}
+
+  ssr-window@4.0.2: {}
 
   stable-hash@0.0.4: {}
 

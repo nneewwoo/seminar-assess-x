@@ -2,8 +2,8 @@ import prisma from '$lib/prisma'
 import { json, type RequestHandler } from '@sveltejs/kit'
 import { z } from 'zod'
 
-const POST: RequestHandler = async ({ request }) => {
-  const { email } = await request.json()
+const POST: RequestHandler = async ({ request, fetch }) => {
+  const { email, givenName } = await request.json()
 
   try {
     const valid = z
@@ -19,8 +19,18 @@ const POST: RequestHandler = async ({ request }) => {
           success: false,
           body: { error: 'Email already registered' }
         })
+      } else {
+        const request = await fetch('/api/v1/account/security/otp/request', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, givenName })
+        })
+        const data = (await request.json()) as {
+          success: boolean
+          body?: { error: string }
+        }
+        return json(data)
       }
-      return json({ success: true })
     }
   } catch (error) {
     if (error instanceof z.ZodError) {

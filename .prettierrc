@@ -5,6 +5,8 @@
   "trailingComma": "none",
   "printWidth": 80,
   "semi": false,
+  "svelteBracketNewLine": false,
+  "svelteIndentScriptAndStyle": true,
   "plugins": ["prettier-plugin-svelte"],
   "overrides": [
     {

@@ -22,12 +22,10 @@ model User {
   sessions    Session[]
 }
 
-model TempUser {
-  id         String @id @default(uuid())
-  givenName  String
-  familyName String
-  email      String
-  password   String
+model Otp {
+  id      String @id @default(uuid())
+  email   String @unique
+  counter BigInt @default(0)
 }
 
 model Cycle {

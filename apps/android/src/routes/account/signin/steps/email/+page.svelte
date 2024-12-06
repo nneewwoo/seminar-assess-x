@@ -3,32 +3,31 @@
   import '@material/web/button/filled-button'
   import '@material/web/button/text-button'
 
-  import { page } from '$app/stores'
   import { z } from 'zod'
   import { navigateTo } from '$lib/utils'
   import { goto } from '$app/navigation'
   import type { IResponse } from '$lib/types'
+  import LoadingBar from '$lib/components/LoadingBar.svelte'
+  import { postApi } from '$lib/utils/fetch'
 
   type Response = { error: z.ZodIssue[] | string; name?: string }
+
+  let loading = $state(false)
 
   let emailError = $state('')
 
   const handleSubmit = async (event: SubmitEvent) => {
+    loading = true
     const formData = new FormData(event.target as HTMLFormElement)
     const email = formData.get('email') as string
     emailError = ''
 
     try {
-      const res = await fetch(
+      const data = await postApi<Response>(
+        fetch,
         `${import.meta.env.VITE_API_URL}/account/signin/steps/email`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email })
-        }
+        { email }
       )
-
-      const data = (await res.json()) as IResponse<Response>
 
       if (data.success) {
         navigateTo('/account/signin/steps/password', {
@@ -36,7 +35,7 @@
         })
       }
 
-      if (res.body) {
+      if (data.body) {
         if (Array.isArray(data.body?.error)) {
           data.body?.error.forEach((issue) => {
             switch (issue.path[0]) {
@@ -52,9 +51,11 @@
     } catch (error) {
       console.error('API call failed:', error)
     }
+    loading = false
   }
 </script>
 
+<LoadingBar {loading} />
 <div class="flex-1 flex flex-col">
   <div class="mb-8">
     <h1>Sign in</h1>
@@ -68,9 +69,9 @@
         class="w-full"
         autocomplete="email"
         type="email"
+        required
         error={emailError}
-        error-text={emailError}
-      ></md-outlined-text-field>
+        error-text={emailError}></md-outlined-text-field>
     </div>
     <div class="w-full flex justify-between">
       <!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -78,9 +79,8 @@
       <md-text-button
         onclick={() => goto('/account/signup/steps/name')}
         class="-ml-3"
-        type="button">Register</md-text-button
-      >
-      <md-filled-button type="submit">Next</md-filled-button>
+        type="button">Register</md-text-button>
+      <md-filled-button disabled={loading} type="submit">Next</md-filled-button>
     </div>
   </form>
 </div>

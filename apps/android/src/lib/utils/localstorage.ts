@@ -3,18 +3,21 @@ const useLocalStorage = (
   key: string,
   value?: string
 ) => {
-  if (action === 'get') {
-    return localStorage.getItem(key) ? String(localStorage.getItem(key)!) : null
-  }
+  if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+    if (action === 'get') {
+      return localStorage.getItem(key)
+        ? String(localStorage.getItem(key)!)
+        : null
+    }
 
-  if (action === 'set') {
-    localStorage.setItem(key, String(value))
-  }
+    if (action === 'set') {
+      localStorage.setItem(key, String(value))
+    }
 
-  if (action === 'remove') {
-    localStorage.removeItem(key)
+    if (action === 'remove') {
+      localStorage.removeItem(key)
+    }
   }
-
   return null
 }
 

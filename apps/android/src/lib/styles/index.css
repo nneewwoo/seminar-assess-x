@@ -9,6 +9,10 @@
   bg-[var(--md-sys-color-background)] text-[var(--md-sys-color-on-background)];
 }
 
+.material-symbols-rounded.filled {
+  font-variation-settings: 'FILL' 1;
+}
+
 :root {
   --md-ref-typeface-brand: Gilroy;
   --md-ref-typeface-plain: Gilroy;

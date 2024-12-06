@@ -5,7 +5,10 @@
   import { z } from 'zod'
   import { navigateTo } from '$lib/utils'
   import { page } from '$app/stores'
-  import { type IResponse } from '$lib/types'
+  import LoadingBar from '$lib/components/LoadingBar.svelte'
+  import { postApi } from '$lib/utils/fetch'
+
+  let loading = $state(false)
 
   type ErrorResponse = { error: z.ZodIssue[] }
 
@@ -20,6 +23,7 @@
   const email = $page.url.searchParams.get('email') as string
 
   const handleSubmit = async (event: SubmitEvent) => {
+    loading = true
     const formData = new FormData(event.target as HTMLFormElement)
     const password = formData.get('password') as string
     const confirm = formData.get('confirm') as string
@@ -35,22 +39,11 @@
     }
 
     try {
-      const res = await fetch(
+      const data = await postApi<ErrorResponse>(
+        fetch,
         `${import.meta.env.VITE_API_URL}/account/signup/steps/password`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            givenName,
-            familyName,
-            email,
-            password,
-            confirm
-          })
-        }
+        { givenName, familyName, email, password, confirm }
       )
-
-      const data = (await res.json()) as IResponse<ErrorResponse>
 
       if (data.success) {
         navigateTo('/account/signup/steps/done')
@@ -70,9 +63,11 @@
     } catch (error) {
       console.error('API call failed:', error)
     }
+    loading = false
   }
 </script>
 
+<LoadingBar {loading} />
 <div class="flex-1 flex flex-col">
   <div class="mb-8">
     <h1>Create a strong password</h1>
@@ -87,35 +82,34 @@
         label="Password"
         name="password"
         class="w-full"
+        required
         type={show ? 'text' : 'password'}
         error={passwordError}
-        error-text={passwordError}
-      ></md-outlined-text-field>
+        error-text={passwordError}></md-outlined-text-field>
     </div>
     <div>
       <md-outlined-text-field
         label="Confirm"
         name="confirm"
         class="w-full"
+        required
         type={show ? 'text' : 'password'}
         error={confirmError || customError}
-        error-text={confirmError || customError}
-      ></md-outlined-text-field>
+        error-text={confirmError || customError}></md-outlined-text-field>
       <div class="flex pt-2 relative h-8">
         <md-checkbox
           onchange={(e: Event) =>
             (show = (e.target as HTMLInputElement).checked)}
           id="show-password"
           class="-left-2 top-3 absolute h-[18px] w-[18px]"
-          touch-target="wrapper"
-        ></md-checkbox>
+          touch-target="wrapper"></md-checkbox>
         <div class="left-10 absolute">
           <label for="show-password">Show password</label>
         </div>
       </div>
     </div>
     <div class="w-full flex justify-end">
-      <md-filled-button type="submit">Next</md-filled-button>
+      <md-filled-button disabled={loading} type="submit">Next</md-filled-button>
     </div>
   </form>
 </div>

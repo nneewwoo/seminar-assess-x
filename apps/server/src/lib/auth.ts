@@ -10,8 +10,6 @@ import type { RequestEvent } from '@sveltejs/kit'
 
 const DAY_IN_MS = 1000 * 60 * 60 * 24
 
-const sessionCookieName = 'auth-session'
-
 const generateSessionToken = (): string => {
   const bytes = crypto.getRandomValues(new Uint8Array(16))
   const token = encodeBase32LowerCaseNoPadding(bytes)
@@ -62,13 +60,12 @@ const validateSessionToken = async (token: string) => {
 }
 
 const invalidateSession = async (sessionId: string) => {
-  await prisma.seminar.delete({ where: { id: sessionId } })
+  await prisma.session.delete({ where: { id: sessionId } })
 }
 
 type SessionValidationResult = Awaited<ReturnType<typeof validateSessionToken>>
 
 export {
-  sessionCookieName,
   generateSessionToken,
   createSession,
   validateSessionToken,

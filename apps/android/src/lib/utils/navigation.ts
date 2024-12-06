@@ -4,7 +4,11 @@ interface QueryProps {
   params?: Record<string, string>
 }
 
-const navigateTo = (url: string, query?: QueryProps) => {
+interface Opts {
+  replaceState: boolean
+}
+
+const navigateTo = (url: string, query?: QueryProps, opts?: Opts) => {
   let mainURL = url
 
   if (query && query.params) {
@@ -18,7 +22,7 @@ const navigateTo = (url: string, query?: QueryProps) => {
     mainURL += queries.join('&')
   }
 
-  goto(mainURL)
+  goto(mainURL, opts)
 }
 
 export default navigateTo

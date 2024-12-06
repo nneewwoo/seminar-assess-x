@@ -4,11 +4,14 @@ import { sequence } from '@sveltejs/kit/hooks'
 import { env } from '$env/dynamic/private'
 
 const handleAuth: Handle = async ({ event, resolve }) => {
-  if (!event.url.pathname.startsWith('/api/v1/account')) {
+  if (
+    !event.url.pathname.startsWith('/api/v1/account/signin') &&
+    !event.url.pathname.startsWith('/api/v1/account/signup') &&
+    !event.url.pathname.startsWith('/api/v1/account/security/otp')
+  ) {
     const sessionToken = event.request.headers
       .get('Authorization')
       ?.split(' ')[1]
-    console.log(event.request.headers)
 
     if (!sessionToken) {
       event.locals.user = null
@@ -28,7 +31,14 @@ const handleAuth: Handle = async ({ event, resolve }) => {
   return resolve(event)
 }
 
-const allowedOrigins = ['http://192.168.254.102:1420', 'http://tauri.localhost']
+const allowedOrigins = [
+  'http://192.168.254.103:1420',
+  'http://192.168.254.105:1420',
+  'http://tauri.localhost',
+  'http://192.168.223.128:1420',
+  'http://192.168.240.1:1420',
+  'https://seminar-asssess.tech'
+]
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '',
@@ -53,8 +63,6 @@ const handleCors: Handle = async ({ event, resolve }) => {
     }
     return response
   }
-
-  console.log(env.DATABASE_URL)
 
   return new Response('OK', { headers: corsHeaders, status: 200 })
 }
