@@ -2,3 +2,6 @@
 members = ["crates/seminar-assess-tauri"]
 
 resolver = "2"
+
+[workspace.dependencies]
+tokio = { version = "1.42.0", default-features = false }

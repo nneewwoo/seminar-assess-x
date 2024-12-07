@@ -43,6 +43,7 @@ model Cycle {
 model Seminar {
   id            String       @id @default(uuid())
   title         String
+  description   String
   numberOfVotes Int          @default(0)
   cycle         Cycle        @relation(fields: [cycleId], references: [id])
   cycleId       String

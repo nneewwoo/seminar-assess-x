@@ -9,6 +9,7 @@
   import { type IResponse } from '$lib/types'
   import { SESSION_TOKEN } from '$lib/store'
   import { postApi } from '$lib/utils/fetch'
+  import { load } from '@tauri-apps/plugin-store'
 
   type Response = { error: string; token: string }
 
@@ -41,6 +42,8 @@
       )
 
       if (data.success) {
+        const store = await load('app.json')
+        await store.set('session-token', data.body?.token)
         useLocalStorage('set', 'session-token', data.body?.token)
         SESSION_TOKEN.set(data.body?.token)
         navigateTo('/', undefined, { replaceState: true })

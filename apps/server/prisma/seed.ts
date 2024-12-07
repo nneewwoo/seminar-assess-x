@@ -1,11 +1,7 @@
-import {
-  CyclePeriodType,
-  ResponsePeriodType,
-  QuestionType
-} from '@prisma/client'
 import prisma from '$lib/prisma'
+import { CyclePeriodType, QuestionType } from '@prisma/client'
 
-async function main() {
+const main = async () => {
   await prisma.user.create({
     data: {
       givenName: 'Juan',
@@ -24,26 +20,31 @@ async function main() {
     }
   })
 
-  const seminars = [
+  const seminars: { title: string; course: string; description: string }[] = [
     {
       title: 'Pagpanudlo nahungod sa edukasyon (LITERACY)',
-      course: 'Education'
+      course: 'Education',
+      description: ''
     },
     {
       title: 'Pagpanudlo nahungod sa Bakes and Pastries',
-      course: 'Food Technology'
+      course: 'Food Technology',
+      description: ''
     },
     {
       title: 'Pagpanudlo nahungod sa Fisheries Management',
-      course: 'Fisheries'
+      course: 'Fisheries',
+      description: ''
     },
     {
       title: 'Pagpanudlo nahungod sa Electronic Spreadsheet',
-      course: 'Computer Science'
+      course: 'Computer Science',
+      description: ''
     },
     {
       title: 'Pagpanudlo nahungod sa Self-Defense - Criminology',
-      course: 'Criminology'
+      course: 'Criminology',
+      description: ''
     }
   ]
 
@@ -206,6 +207,7 @@ async function main() {
       data: {
         title: seminars[i].title,
         course: seminars[i].course,
+        description: seminars[i].description,
         cycleId: cycle.id
       }
     })
