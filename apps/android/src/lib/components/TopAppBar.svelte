@@ -13,13 +13,15 @@
   bind:this={appBarContext.appBarElement}
   scroll-target=".main"
   variant={appBarContext.variant}
-  scroll-behavior="elevate shrink">
+  scroll-behavior="elevate shrink"
+>
   {#if appBarContext.canGoBack}
     <!-- svelte-ignore a11y_click_events_have_key_events -->
     <md-icon-button
       role="button"
       tabindex="0"
-      onclick={() => window.history.back()}>
+      onclick={() => window.history.back()}
+    >
       <md-icon class="material-symbols-rounded bg-transparent">
         arrow_back
       </md-icon>
@@ -27,7 +29,8 @@
   {/if}
   <mdui-top-app-bar-title class={`${!appBarContext.canGoBack && 'pl-2'}`}
     >{appBarContext.title}<span slot="label-large">{appBarContext.title}</span
-    ></mdui-top-app-bar-title>
+    ></mdui-top-app-bar-title
+  >
   <div style="flex-grow: 1"></div>
   <span class="relative">
     <!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -35,7 +38,8 @@
       tabindex="0"
       role="button"
       onclick={() => (menu.open = !menu.open)}
-      id="menu-anchor">
+      id="menu-anchor"
+    >
       <md-icon class="material-symbols-rounded bg-transparent">
         more_vert
       </md-icon>

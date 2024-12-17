@@ -36,16 +36,15 @@
             <h2 class="skeleton">Skeleton</h2>
             <div>
               <span class="skeleton"
-                >Lorem ipsum dolor sit amet consectetur.</span
-              >
+                >Lorem ipsum dolor sit amet consectetur.</span>
             </div>
             <div>
               <span class="skeleton"> Commodi omnis quos atque? </span>
             </div>
           </div>
           <div
-            class="w-full border-b border-[var(--md-sys-color-on-background)] opacity-20"
-          ></div>
+            class="w-full border-b border-[var(--md-sys-color-on-background)] opacity-20">
+          </div>
           <div class="flex items-center justify-between pt-4">
             <span class="skeleton">0 questions</span>
             <md-filled-button disabled></md-filled-button>
@@ -61,18 +60,16 @@
             <div class="py-4">
               <h2>{category.title}</h2>
               <span
-                >Lorem, ipsum dolor sit amet consectetur adipisicing elit.</span
-              >
+                >Lorem, ipsum dolor sit amet consectetur adipisicing elit.</span>
             </div>
             <div
-              class="w-full border-b border-[var(--md-sys-color-on-background)] opacity-20"
-            ></div>
+              class="w-full border-b border-[var(--md-sys-color-on-background)] opacity-20">
+            </div>
             <div class="flex items-center justify-between pt-4">
               <span>{category._count.questions} questions</span>
               <md-filled-button
                 role="link"
-                href={`/main/test/evaluation/${category.id}?title=${category.title}&type=${category.type}`}
-              >
+                href={`/main/test/evaluation/category?category=${category.id}&title=${category.title}&type=${category.type}`}>
                 {category.type === 'FEEDBACK' ? 'Write' : 'Rate'}
               </md-filled-button>
             </div>

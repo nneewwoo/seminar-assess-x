@@ -15,7 +15,6 @@
   import { appBarContext, appContext, sessionContext } from '$lib/state.svelte'
   import { page } from '$app/stores'
   import { postApi } from '$lib/utils'
-  import type { EvaluationQuestion } from '$lib/types'
 
   let id = $state('')
   let title = $state('')
@@ -42,10 +41,9 @@
   let drafts: EvaluationQuestionDraft[] = $state([])
 
   const init = async () => {
-    const { category: currentId } = $page.params
     title = $page.url.searchParams.get('title') || ''
     type = $page.url.searchParams.get('type') || ''
-    id = currentId
+    id = $page.url.searchParams.get('category') || ''
 
     appBarContext.canGoBack = true
     appBarContext.title = title
@@ -163,8 +161,7 @@
                   <span class="skeleton">Ducimus suscipit qous?</span>
                   <md-icon
                     slot="start"
-                    class={`material-symbols-rounded text-4xl skeleton`}
-                  >
+                    class={`material-symbols-rounded text-4xl skeleton`}>
                     sentiment_neutral
                   </md-icon>
                 </md-list-item>
@@ -175,8 +172,7 @@
                         <div>
                           <md-icon-button role="none">
                             <md-icon
-                              class={`material-symbols-rounded skeleton`}
-                            >
+                              class={`material-symbols-rounded skeleton`}>
                               star
                             </md-icon>
                           </md-icon-button>
@@ -185,8 +181,7 @@
                     </div>
                     <md-icon
                       slot="start"
-                      class="text-transparent w-fit h-fit material-symbols-rounded"
-                    >
+                      class="text-transparent w-fit h-fit material-symbols-rounded">
                       star
                     </md-icon>
                   </md-list-item>
@@ -206,8 +201,7 @@
                   {q.evalQuestion.question}
                   <md-icon
                     slot="start"
-                    class={`${q.rating ? ratings[q.rating - 1].color : ratings[5].color} material-symbols-rounded text-4xl w-fit h-fit`}
-                  >
+                    class={`${q.rating ? ratings[q.rating - 1].color : ratings[5].color} material-symbols-rounded text-4xl w-fit h-fit`}>
                     {q.rating ? ratings[q.rating - 1].icon : ratings[5].icon}
                   </md-icon>
                 </md-list-item>
@@ -223,11 +217,9 @@
                             onclick={() => {
                               if (star === q.rating) return
                               handleStarClick(q.evalQuestionId, star)
-                            }}
-                          >
+                            }}>
                             <md-icon
-                              class={`material-symbols-rounded ${star <= q.rating ? 'filled text-[--md-sys-color-primary]' : 'text-gray-500'}`}
-                            >
+                              class={`material-symbols-rounded ${star <= q.rating ? 'filled text-[--md-sys-color-primary]' : 'text-gray-500'}`}>
                               star
                             </md-icon>
                           </md-icon-button>
@@ -236,8 +228,7 @@
                     </div>
                     <md-icon
                       slot="start"
-                      class="w-fit h-fit text-transparent material-symbols-rounded"
-                    >
+                      class="w-fit h-fit text-transparent material-symbols-rounded">
                       star
                     </md-icon>
                   </md-list-item>
@@ -257,8 +248,7 @@
           {#each drafts as f, index}
             <form
               onsubmit={(event) =>
-                handleFeedbackSubmit(event, f.evalQuestionId)}
-            >
+                handleFeedbackSubmit(event, f.evalQuestionId)}>
               <md-list-item>
                 {f.evalQuestion.question}
               </md-list-item>
@@ -273,16 +263,14 @@
                       type="textarea"
                       placeholder="Tell us what you think..."
                       supporting-text="Please don't include sensitive information"
-                      maxlength="256"
-                    ></md-outlined-text-field>
+                      maxlength="256"></md-outlined-text-field>
                   </div>
                 </md-list-item>
                 <div class="flex justify-end px-4">
                   <md-filled-button
                     disabled={loading === f.evalQuestionId}
                     role="button"
-                    type="submit"
-                  >
+                    type="submit">
                     Send
                   </md-filled-button>
                 </div>

@@ -77,13 +77,15 @@
           <div id="seminar-container">
             <md-list-item
               class={`rounded-2xl bg-[var(--md-sys-color-surface-dim)]`}
-              role="list">
+              role="list"
+            >
               <div class="text-transparent" slot="headline">
                 <strong class="skeleton">Lorem ipsum.</strong>
               </div>
               <div class={`text-transparent`} slot="supporting-text">
                 <span class="skeleton"
-                  >Lorem ipsum dolor sit amet consectetur adipisicing elit.</span>
+                  >Lorem ipsum dolor sit amet consectetur adipisicing elit.</span
+                >
               </div>
             </md-list-item>
           </div>
@@ -103,7 +105,8 @@
                     ? 'bg-[var(--md-sys-color-primary-semi)] text-[var(--md-sys-color-on-primary)]'
                     : 'bg-[var(--md-sys-color-primary-container-semi)] text-[var(--md-sys-color-on-primary-container)]'
                 }`}
-                role="listitem">
+                role="listitem"
+              >
                 <div class="absolute top-0 left-0 w-full h-full z-0">
                   <md-linear-progress
                     style={`${seminar.votedByUser ? '--md-linear-progress-active-indicator-color: var(--md-sys-color-primary);' : '--md-linear-progress-active-indicator-color: var(--md-sys-color-primary-container);'}`}
@@ -116,7 +119,8 @@
                       ? 'text-[var(--md-sys-color-on-primary)]'
                       : 'text-[var(--md-sys-color-on-primary-container)]'
                   }`}
-                  slot="headline">
+                  slot="headline"
+                >
                   {seminar.title}
                 </strong>
                 <div
@@ -125,7 +129,8 @@
                       ? 'text-[var(--md-sys-color-on-primary)]'
                       : 'text-[var(--md-sys-color-on-primary-container)]'
                   }`}
-                  slot="supporting-text">
+                  slot="supporting-text"
+                >
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 </div>
                 <span class="relative z-10 italic" slot="end">
@@ -153,14 +158,16 @@
                 tabindex="0"
                 aria-checked={seminar.votedByUser ||
                   seminar.id === selectedSeminarId}
-                onclick={() => (selectedSeminarId = seminar.id)}>
+                onclick={() => (selectedSeminarId = seminar.id)}
+              >
                 <strong
                   class={`${
                     seminar.votedByUser || seminar.id === selectedSeminarId
                       ? 'text-[var(--md-sys-color-on-primary)]'
                       : 'text-[var(--md-sys-color-on-primary-container)]'
                   }`}
-                  slot="headline">
+                  slot="headline"
+                >
                   {seminar.title}
                 </strong>
                 <div
@@ -169,7 +176,8 @@
                       ? 'text-[var(--md-sys-color-on-primary)]'
                       : 'text-[var(--md-sys-color-on-primary-container)]'
                   }`}
-                  slot="supporting-text">
+                  slot="supporting-text"
+                >
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 </div>
                 <md-icon
@@ -178,7 +186,8 @@
                     seminar.votedByUser || seminar.id === selectedSeminarId
                       ? 'text-[var(--md-sys-color-on-primary)]'
                       : 'text-[var(--md-sys-color-on-primary-container)]'
-                  }`}>
+                  }`}
+                >
                   {seminar.votedByUser || seminar.id === selectedSeminarId
                     ? 'check_box'
                     : 'check_box_outline_blank'}
@@ -195,7 +204,8 @@
           tabindex="0"
           onclick={userCastVote}
           disabled={!selectedSeminarId || userCastingVote}
-          class="">
+          class=""
+        >
           Make your pick
         </md-filled-button>
       </div>
