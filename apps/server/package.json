@@ -7,7 +7,9 @@
     "build": "pnpm dlx prisma generate && vite build",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "migrate:dev": "dotenv -e .env -- pnpm prisma migrate dev",
+    "migrate:prod": "dotenv -e .env.prod -- pnpm prisma migrate deploy"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "catalog:svelte",

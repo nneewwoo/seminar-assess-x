@@ -30,7 +30,7 @@ jobs:
       - name: calculate next version
         shell: bash
         run: |
-          CURRENT_VERSION="$(curl -s "https://api.github.com/repos/nneewwoo/seminar-assess/tags" | jq -r 'if . == [] then "0.0.0" else .[0].name end')"
+          CURRENT_VERSION="$(curl -s "https://api.github.com/repos/nneewwoo/seminar-assess/tags" | jq -r 'if . == [] then "0.0.0" else .[0].name end' | sed 's/^v//')"
           NEXT_VERSION=$(./scripts/next.sh "${CURRENT_VERSION}" "${{ env.bump }}")
           echo "version=$NEXT_VERSION" >> $GITHUB_ENV
           mkdir -p release && echo "$NEXT_VERSION" > release/version
