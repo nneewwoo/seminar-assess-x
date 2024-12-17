@@ -149,14 +149,16 @@
   <div class="mb-8">
     <h1>Verify email</h1>
     <span class="text-xl"
-      >Enter the OTP code sent to your email to continue.</span>
+      >Enter the OTP code sent to your email to continue.</span
+    >
   </div>
 
   <form class="gap-y-4 flex flex-col" onsubmit={handleSubmit}>
     <input
       bind:this={hiddenInputElement}
       type="number"
-      class="h-0 w-0 focus:outline-none focus:right-0" />
+      class="h-0 w-0 focus:outline-none focus:right-0"
+    />
     <input type="hidden" name="givenName" value={givenName} />
     <input type="hidden" name="familyName" value={familyName} />
     <input type="hidden" name="email" value={email} />
@@ -164,40 +166,54 @@
       <button
         type="button"
         onclick={handleFocus}
-        class="flex focus:outline-none focus:right-0 justify-between cursor-default">
+        class="flex focus:outline-none focus:right-0 justify-between cursor-default"
+      >
         <div
-          class={`w-12 h-14 flex items-center justify-center rounded-md ${otpError ? 'border-[rgb(186,_26,_26)] border-2' : focused && otp.length === 0 ? 'border-[--md-sys-color-primary] border-2' : 'border-[#006a6a] border'}`}>
+          class={`w-12 h-14 flex items-center justify-center rounded-md ${otpError ? 'border-[rgb(186,_26,_26)] border-2' : focused && otp.length === 0 ? 'border-[--md-sys-color-primary] border-2' : 'border-[#006a6a] border'}`}
+        >
           <span class={`${otpError && 'text-[rgb(186,_26,_26)]'} text-2xl`}
-            >{otp[0]}</span>
+            >{otp[0]}</span
+          >
         </div>
         <div
-          class={`w-12 h-14 flex items-center justify-center rounded-md ${otpError ? 'border-[rgb(186,_26,_26)] border-2' : focused && otp.length === 1 ? 'border-[--md-sys-color-primary] border-2' : 'border-[#006a6a] border'}`}>
+          class={`w-12 h-14 flex items-center justify-center rounded-md ${otpError ? 'border-[rgb(186,_26,_26)] border-2' : focused && otp.length === 1 ? 'border-[--md-sys-color-primary] border-2' : 'border-[#006a6a] border'}`}
+        >
           <span class={`${otpError && 'text-[rgb(186,_26,_26)]'} text-2xl`}
-            >{otp[1]}</span>
+            >{otp[1]}</span
+          >
         </div>
         <div
-          class={`w-12 h-14 flex items-center justify-center rounded-md ${otpError ? 'border-[rgb(186,_26,_26)] border-2' : focused && otp.length === 2 ? 'border-[--md-sys-color-primary] border-2' : 'border-[#006a6a] border'}`}>
+          class={`w-12 h-14 flex items-center justify-center rounded-md ${otpError ? 'border-[rgb(186,_26,_26)] border-2' : focused && otp.length === 2 ? 'border-[--md-sys-color-primary] border-2' : 'border-[#006a6a] border'}`}
+        >
           <span class={`${otpError && 'text-[rgb(186,_26,_26)]'} text-2xl`}
-            >{otp[2]}</span>
+            >{otp[2]}</span
+          >
         </div>
         <div
-          class={`w-12 h-14 flex items-center justify-center rounded-md ${otpError ? 'border-[rgb(186,_26,_26)] border-2' : focused && otp.length === 3 ? 'border-[--md-sys-color-primary] border-2' : 'border-[#006a6a] border'}`}>
+          class={`w-12 h-14 flex items-center justify-center rounded-md ${otpError ? 'border-[rgb(186,_26,_26)] border-2' : focused && otp.length === 3 ? 'border-[--md-sys-color-primary] border-2' : 'border-[#006a6a] border'}`}
+        >
           <span class={`${otpError && 'text-[rgb(186,_26,_26)]'} text-2xl`}
-            >{otp[3]}</span>
+            >{otp[3]}</span
+          >
         </div>
         <div
-          class={`w-12 h-14 flex items-center justify-center rounded-md ${otpError ? 'border-[rgb(186,_26,_26)] border-2' : focused && otp.length === 4 ? 'border-[--md-sys-color-primary] border-2' : 'border-[#006a6a] border'}`}>
+          class={`w-12 h-14 flex items-center justify-center rounded-md ${otpError ? 'border-[rgb(186,_26,_26)] border-2' : focused && otp.length === 4 ? 'border-[--md-sys-color-primary] border-2' : 'border-[#006a6a] border'}`}
+        >
           <span class={`${otpError && 'text-[rgb(186,_26,_26)]'} text-2xl`}
-            >{otp[4]}</span>
+            >{otp[4]}</span
+          >
         </div>
         <div
-          class={`w-12 h-14 flex items-center justify-center rounded-md ${otpError ? 'border-[rgb(186,_26,_26)] border-2' : focused && otp.length === 5 ? 'border-[--md-sys-color-primary] border-2' : 'border-[#006a6a] border'}`}>
+          class={`w-12 h-14 flex items-center justify-center rounded-md ${otpError ? 'border-[rgb(186,_26,_26)] border-2' : focused && otp.length === 5 ? 'border-[--md-sys-color-primary] border-2' : 'border-[#006a6a] border'}`}
+        >
           <span class={`${otpError && 'text-[rgb(186,_26,_26)]'} text-2xl`}
-            >{otp[5]}</span>
+            >{otp[5]}</span
+          >
         </div>
       </button>
       <div
-        class="text-[rgb(186,_26,_26)] pt-1 text-xs flex gap-x-3 gap-y-3 justify-between ps-4 pe-4">
+        class="text-[rgb(186,_26,_26)] pt-1 text-xs flex gap-x-3 gap-y-3 justify-between ps-4 pe-4"
+      >
         {otpError}
       </div>
     </div>
@@ -208,9 +224,11 @@
         disabled={timeout !== 'Resend'}
         class="-ml-3"
         onclick={handleResend}
-        type="button">{timeout}</md-text-button>
+        type="button">{timeout}</md-text-button
+      >
       <md-filled-button disabled={loading || otp.length < 6} type="submit"
-        >Verify</md-filled-button>
+        >Verify</md-filled-button
+      >
     </div>
   </form>
 </div>

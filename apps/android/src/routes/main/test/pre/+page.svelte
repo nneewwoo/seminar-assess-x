@@ -3,6 +3,7 @@
 
   appBarContext.canGoBack = false
   appBarContext.title = 'Pre'
+  appBarContext.variant = 'large'
 </script>
 
 Pre Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto

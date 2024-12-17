@@ -8,18 +8,20 @@ generator client {
 }
 
 model User {
-  id          String       @id @default(uuid())
-  givenName   String
-  familyName  String
-  email       String       @unique
-  password    String
-  address     String?
-  phone       String?      @unique
-  responses   Response[]
-  votes       Vote[]
-  attendances Attendance[]
-  role        UserRoleType @default(USER)
-  sessions    Session[]
+  id                String              @id @default(uuid())
+  givenName         String
+  familyName        String
+  email             String              @unique
+  password          String
+  address           String?
+  phone             String?             @unique
+  responses         Response[]
+  votes             Vote[]
+  attendances       Attendance[]
+  role              UserRoleType        @default(USER)
+  sessions          Session[]
+  EvalResponseDraft EvalResponseDraft[]
+  EvalResponse      EvalResponse[]
 }
 
 model Otp {
@@ -29,15 +31,17 @@ model Otp {
 }
 
 model Cycle {
-  id          String        @id @default(uuid())
-  month       Int
-  year        Int
-  active      Boolean       @default(true)
-  seminars    Seminar[]
-  responses   Response[]
-  periods     CyclePeriod[]
-  votes       Vote[]
-  attendances Attendance[]
+  id                String              @id @default(uuid())
+  month             Int
+  year              Int
+  active            Boolean             @default(true)
+  seminars          Seminar[]
+  responses         Response[]
+  periods           CyclePeriod[]
+  votes             Vote[]
+  attendances       Attendance[]
+  EvalResponseDraft EvalResponseDraft[]
+  EvalResponse      EvalResponse[]
 }
 
 model Seminar {
@@ -55,8 +59,8 @@ model Seminar {
 
 model Question {
   id        String       @id @default(uuid())
-  text      String
-  type      QuestionType
+  title     String
+  type      QuestionType @default(MULTIPLE_CHOICE)
   seminar   Seminar      @relation(fields: [seminarId], references: [id])
   seminarId String
   options   Option[]
@@ -65,8 +69,8 @@ model Question {
 
 model Option {
   id         String     @id @default(uuid())
-  text       String
-  isCorrect  Boolean
+  label      String
+  isCorrect  Boolean?
   question   Question   @relation(fields: [questionId], references: [id])
   questionId String
   responses  Response[]
@@ -131,6 +135,59 @@ model Session {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model Eval {
+  id                String              @id @default(uuid())
+  title             String
+  type              EvalType
+  questions         EvalQuestion[]
+  EvalResponseDraft EvalResponseDraft[]
+  EvalResponse      EvalResponse[]
+}
+
+model EvalQuestion {
+  id             String              @id @default(uuid())
+  question       String
+  eval           Eval                @relation(fields: [evalId], references: [id])
+  evalId         String
+  responseDrafts EvalResponseDraft[]
+  responses      EvalResponse[]
+}
+
+model EvalResponseDraft {
+  id             String       @id @default(uuid())
+  user           User         @relation(fields: [userId], references: [id])
+  userId         String
+  eval           Eval         @relation(fields: [evalId], references: [id])
+  evalId         String
+  evalQuestion   EvalQuestion @relation(fields: [evalQuestionId], references: [id])
+  evalQuestionId String
+  cycle          Cycle        @relation(fields: [cycleId], references: [id])
+  cycleId        String
+  rating         Int          @default(0)
+  textAnswer     String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@unique([userId, evalId, evalQuestionId])
+}
+
+model EvalResponse {
+  id             String       @id @default(uuid())
+  user           User         @relation(fields: [userId], references: [id])
+  userId         String
+  eval           Eval         @relation(fields: [evalId], references: [id])
+  evalId         String
+  evalQuestion   EvalQuestion @relation(fields: [evalQuestionId], references: [id])
+  evalQuestionId String
+  cycle          Cycle        @relation(fields: [cycleId], references: [id])
+  cycleId        String
+  rating         Int?
+  textAnswer     String?
+  createdAt      DateTime     @default(now())
+
+  @@unique([userId, evalId, evalQuestionId])
+}
+
 enum CyclePeriodType {
   VOTING
   PRE_TEST
@@ -149,10 +206,14 @@ enum ResponsePeriodType {
 
 enum QuestionType {
   MULTIPLE_CHOICE
-  EVALUATION
 }
 
 enum UserRoleType {
   ADMIN
   USER
+}
+
+enum EvalType {
+  RATING
+  FEEDBACK
 }

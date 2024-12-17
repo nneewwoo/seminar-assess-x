@@ -85,7 +85,8 @@
         required
         type={show ? 'text' : 'password'}
         error={passwordError}
-        error-text={passwordError}></md-outlined-text-field>
+        error-text={passwordError}
+      ></md-outlined-text-field>
     </div>
     <div>
       <md-outlined-text-field
@@ -95,14 +96,16 @@
         required
         type={show ? 'text' : 'password'}
         error={confirmError || customError}
-        error-text={confirmError || customError}></md-outlined-text-field>
+        error-text={confirmError || customError}
+      ></md-outlined-text-field>
       <div class="flex pt-2 relative h-8">
         <md-checkbox
           onchange={(e: Event) =>
             (show = (e.target as HTMLInputElement).checked)}
           id="show-password"
           class="-left-2 top-3 absolute h-[18px] w-[18px]"
-          touch-target="wrapper"></md-checkbox>
+          touch-target="wrapper"
+        ></md-checkbox>
         <div class="left-10 absolute">
           <label for="show-password">Show password</label>
         </div>

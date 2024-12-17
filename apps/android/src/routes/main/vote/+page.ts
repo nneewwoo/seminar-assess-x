@@ -1,10 +1,9 @@
-import { get } from 'svelte/store'
-import type { PageLoad } from './$types'
-import { CURRENT_PERIOD } from '$lib/store'
 import { redirect } from '@sveltejs/kit'
+import type { PageLoad } from './$types'
+import { sessionContext } from '$lib/state.svelte'
 
 export const load: PageLoad = async () => {
-  if (get(CURRENT_PERIOD) !== 'VOTING') {
-    redirect(302, '/main/vote/done')
+  if (sessionContext.period !== 'VOTING' && sessionContext.period !== 'IDLE') {
+    // redirect(302, '/main/vote/done')
   }
 }

@@ -4,12 +4,10 @@
   import '@material/web/button/text-button'
   import '@material/web/checkbox/checkbox'
 
-  import { page } from '$app/stores'
+  import { sessionContext } from '$lib/state.svelte'
   import { navigateTo, useLocalStorage } from '$lib/utils'
-  import { type IResponse } from '$lib/types'
-  import { SESSION_TOKEN } from '$lib/store'
   import { postApi } from '$lib/utils/fetch'
-  import { load } from '@tauri-apps/plugin-store'
+  import { page } from '$app/stores'
 
   type Response = { error: string; token: string }
 
@@ -41,11 +39,9 @@
         }
       )
 
-      if (data.success) {
-        const store = await load('app.json')
-        await store.set('session-token', data.body?.token)
-        useLocalStorage('set', 'session-token', data.body?.token)
-        SESSION_TOKEN.set(data.body?.token)
+      if (data.success && data.body) {
+        useLocalStorage('set', 'session-token', data.body.token)
+        sessionContext.token = data.body.token
         navigateTo('/', undefined, { replaceState: true })
       }
 
@@ -74,7 +70,8 @@
         required
         type={show ? 'text' : 'password'}
         error={passwordError}
-        error-text={passwordError}></md-outlined-text-field>
+        error-text={passwordError}
+      ></md-outlined-text-field>
       <div class="flex pt-2 relative h-8">
         <md-checkbox
           role="checkbox"
@@ -83,7 +80,8 @@
             (show = (e.target as HTMLInputElement).checked)}
           id="show-password"
           class="-left-2 top-3 absolute h-[18px] w-[18px]"
-          touch-target="wrapper"></md-checkbox>
+          touch-target="wrapper"
+        ></md-checkbox>
         <div class="left-10 absolute">
           <label for="show-password">Show password</label>
         </div>

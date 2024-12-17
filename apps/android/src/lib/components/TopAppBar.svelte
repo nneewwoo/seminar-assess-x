@@ -1,17 +1,16 @@
 <script lang="ts">
   import '@material/web/icon/icon'
   import '@material/web/iconbutton/icon-button'
+  import { appBarContext } from '$lib/state.svelte'
   import type { MdMenu } from '@material/web/menu/menu'
   import 'mdui/components/top-app-bar'
   import 'mdui/components/top-app-bar-title'
-  import { appBarContext } from '$lib/state.svelte'
 
   let menu: MdMenu
-
-  let title = $derived(appBarContext.title)
 </script>
 
 <mdui-top-app-bar
+  bind:this={appBarContext.appBarElement}
   scroll-target=".main"
   variant={appBarContext.variant}
   scroll-behavior="elevate shrink">

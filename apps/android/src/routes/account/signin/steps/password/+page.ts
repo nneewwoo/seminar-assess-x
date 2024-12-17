@@ -1,10 +1,9 @@
-import { SESSION_TOKEN } from '$lib/store'
-import { get } from 'svelte/store'
-import type { PageLoad } from './$types'
+import { sessionContext } from '$lib/state.svelte'
 import { redirect } from '@sveltejs/kit'
+import type { PageLoad } from './$types'
 
 export const load: PageLoad = async () => {
-  if (get(SESSION_TOKEN)) {
+  if (sessionContext.token) {
     redirect(301, '/')
   }
 }

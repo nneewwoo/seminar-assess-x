@@ -6,6 +6,7 @@ package
 .env
 .env.*
 crates
+db
 
 pnpm-lock.yaml
 

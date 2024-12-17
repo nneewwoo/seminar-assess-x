@@ -71,7 +71,8 @@
         type="email"
         required
         error={emailError}
-        error-text={emailError}></md-outlined-text-field>
+        error-text={emailError}
+      ></md-outlined-text-field>
     </div>
     <div class="w-full flex justify-between">
       <!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -79,7 +80,8 @@
       <md-text-button
         onclick={() => goto('/account/signup/steps/name')}
         class="-ml-3"
-        type="button">Register</md-text-button>
+        type="button">Register</md-text-button
+      >
       <md-filled-button disabled={loading} type="submit">Next</md-filled-button>
     </div>
   </form>

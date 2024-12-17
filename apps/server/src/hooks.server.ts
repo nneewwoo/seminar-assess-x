@@ -1,13 +1,12 @@
-import * as auth from '$lib/auth'
 import { error, type Handle } from '@sveltejs/kit'
 import { sequence } from '@sveltejs/kit/hooks'
-import { env } from '$env/dynamic/private'
+import * as auth from '$lib/auth'
 
 const handleAuth: Handle = async ({ event, resolve }) => {
   if (
     !event.url.pathname.startsWith('/api/v1/account/signin') &&
     !event.url.pathname.startsWith('/api/v1/account/signup') &&
-    !event.url.pathname.startsWith('/api/v1/account/security/otp')
+    !event.url.pathname.startsWith('/api/v1/account/security')
   ) {
     const sessionToken = event.request.headers
       .get('Authorization')
@@ -28,14 +27,18 @@ const handleAuth: Handle = async ({ event, resolve }) => {
       throw error(401, 'Unauthorized: Invalid or expired token')
     }
   }
-  return resolve(event)
+  return await resolve(event)
 }
 
 const allowedOrigins = [
   'http://192.168.254.103:1420',
   'http://192.168.254.105:1420',
+  'http://192.168.254.100:1420',
+  'http://192.168.254.101:1420',
+  'http://192.168.254.183:1420',
+  'http://192.168.254.122:1420',
   'http://tauri.localhost',
-  'http://192.168.223.128:1420',
+  'http://192.168.50.128:1420',
   'http://192.168.240.1:1420',
   'https://seminar-asssess.tech'
 ]

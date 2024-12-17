@@ -1,12 +1,12 @@
+import { CyclePeriodType, EvalType, QuestionType } from '@prisma/client'
 import prisma from '$lib/prisma'
-import { CyclePeriodType, QuestionType } from '@prisma/client'
 
 const main = async () => {
   await prisma.user.create({
     data: {
       givenName: 'Juan',
       familyName: 'Dela Cruz',
-      email: 'juandelacruz@email.com',
+      email: 'juan@email.com',
       password: 'password',
       address: '123 Street, City, Province',
       phone: '09123456789'
@@ -22,27 +22,27 @@ const main = async () => {
 
   const seminars: { title: string; course: string; description: string }[] = [
     {
-      title: 'Pagpanudlo nahungod sa edukasyon (LITERACY)',
+      title: 'Literacy',
       course: 'Education',
       description: ''
     },
     {
-      title: 'Pagpanudlo nahungod sa Bakes and Pastries',
+      title: 'Bakes and Pastries',
       course: 'Food Technology',
       description: ''
     },
     {
-      title: 'Pagpanudlo nahungod sa Fisheries Management',
+      title: 'Fisheries Management',
       course: 'Fisheries',
       description: ''
     },
     {
-      title: 'Pagpanudlo nahungod sa Electronic Spreadsheet',
+      title: 'Electronic Spreadsheet',
       course: 'Computer Science',
       description: ''
     },
     {
-      title: 'Pagpanudlo nahungod sa Self-Defense - Criminology',
+      title: 'Self-Defense',
       course: 'Criminology',
       description: ''
     }
@@ -51,150 +51,159 @@ const main = async () => {
   const questionsData = [
     [
       {
-        text: 'Ano ang pinakamalawak na kahulugan ng literacy?',
+        title: 'Ano ang pinakamalawak na kahulugan ng literacy?',
         options: [
-          { text: 'Kakayahang magsulat lamang', isCorrect: false },
+          { label: 'Kakayahang magsulat lamang', isCorrect: false },
           {
-            text: 'Kakayahang magbasa, magsulat, at makaunawa',
+            label: 'Kakayahang magbasa, magsulat, at makaunawa',
             isCorrect: true
           },
-          { text: 'Kakayahang magturo', isCorrect: false },
-          { text: 'Kakayahang makinig', isCorrect: false }
+          { label: 'Kakayahang magturo', isCorrect: false },
+          { label: 'Kakayahang makinig', isCorrect: false }
         ]
       },
       {
-        text: 'Ano ang pangunahing benepisyo ng pagkakaroon ng mataas na literacy rate?',
+        title:
+          'Ano ang pangunahing benepisyo ng pagkakaroon ng mataas na literacy rate?',
         options: [
-          { text: 'Mas maraming panahon sa paglalaro', isCorrect: false },
-          { text: 'Mas malaking kita sa trabaho', isCorrect: false },
+          { label: 'Mas maraming panahon sa paglalaro', isCorrect: false },
+          { label: 'Mas malaking kita sa trabaho', isCorrect: false },
           {
-            text: 'Mas malawak na oportunidad sa edukasyon at trabaho',
+            label: 'Mas malawak na oportunidad sa edukasyon at trabaho',
             isCorrect: true
           },
-          { text: 'Mas maraming oras sa pakikipagkaibigan', isCorrect: false }
+          { label: 'Mas maraming oras sa pakikipagkaibigan', isCorrect: false }
         ]
       }
     ],
     [
       {
-        text: 'What are the basic ingredients in bread making?',
+        title: 'What are the basic ingredients in bread making?',
         options: [
-          { text: 'Flour, water, yeast, and sugar', isCorrect: false },
-          { text: 'Flour, water, yeast, and salt', isCorrect: true },
-          { text: 'Flour, butter, yeast, and salt', isCorrect: false },
-          { text: 'Flour, eggs, water, and salt', isCorrect: false }
+          { label: 'Flour, water, yeast, and sugar', isCorrect: false },
+          { label: 'Flour, water, yeast, and salt', isCorrect: true },
+          { label: 'Flour, butter, yeast, and salt', isCorrect: false },
+          { label: 'Flour, eggs, water, and salt', isCorrect: false }
         ]
       },
       {
-        text: 'What is gluten, and why is it important in bread making?',
+        title: 'What is gluten, and why is it important in bread making?',
         options: [
-          { text: 'A type of starch that helps bread rise', isCorrect: false },
-          { text: 'A sugar that adds sweetness to bread', isCorrect: false },
+          { label: 'A type of starch that helps bread rise', isCorrect: false },
+          { label: 'A sugar that adds sweetness to bread', isCorrect: false },
           {
-            text: 'A protein that gives bread its structure and elasticity',
+            label: 'A protein that gives bread its structure and elasticity',
             isCorrect: true
           },
-          { text: 'A fat that makes bread soft', isCorrect: false }
+          { label: 'A fat that makes bread soft', isCorrect: false }
         ]
       },
       {
-        text: 'What does "proofing" mean in bread making?',
+        title: 'What does "proofing" mean in bread making?',
         options: [
-          { text: 'Baking the bread at a low temperature', isCorrect: false },
+          { label: 'Baking the bread at a low temperature', isCorrect: false },
           {
-            text: 'Letting the dough rest to develop flavor',
+            label: 'Letting the dough rest to develop flavor',
             isCorrect: false
           },
-          { text: 'Allowing the dough to rise before baking', isCorrect: true },
-          { text: 'Mixing the ingredients slowly', isCorrect: false }
-        ]
-      },
-      {
-        text: 'What type of yeast is most commonly used in baking?',
-        options: [
-          { text: 'Fresh yeast', isCorrect: false },
-          { text: 'Wild yeast', isCorrect: false },
-          { text: 'Active dry yeast and instant yeast', isCorrect: true },
-          { text: 'Liquid yeast', isCorrect: false }
-        ]
-      }
-    ],
-    [
-      {
-        text: 'Where does red tide occur?',
-        options: [
-          { text: 'in land', isCorrect: false },
-          { text: 'in air', isCorrect: false },
-          { text: 'in sea', isCorrect: true }
-        ]
-      },
-      {
-        text: 'What cause red tide?',
-        options: [
-          { text: 'bacteria', isCorrect: false },
-          { text: 'algae', isCorrect: true },
-          { text: 'virus', isCorrect: false }
-        ]
-      },
-      {
-        text: 'What is the other term for red tide?',
-        options: [
-          { text: 'harmful tide', isCorrect: false },
-          { text: 'harmful algal bloom', isCorrect: true },
-          { text: 'strangers tide', isCorrect: false }
-        ]
-      }
-    ],
-    [
-      {
-        text: 'The number of rows in a worksheet is',
-        options: [
-          { text: '36500', isCorrect: false },
-          { text: '5536', isCorrect: true },
-          { text: '256', isCorrect: false }
-        ]
-      },
-      {
-        text: 'When a formatted number does not fit within a cell, it displays"',
-        options: [
-          { text: '#####', isCorrect: true },
-          { text: '#DIV/0', isCorrect: false },
-          { text: '#DIV@', isCorrect: false }
-        ]
-      },
-      {
-        text: 'What is the other term for red tide?',
-        options: [
-          { text: 'harmful tide', isCorrect: true },
-          { text: 'harmful algal bloom', isCorrect: false },
-          { text: 'strangers tide', isCorrect: false }
-        ]
-      }
-    ],
-    [
-      {
-        text: 'What is the primary goal of self-defense?',
-        options: [
-          { text: 'To hurt the attacker', isCorrect: false },
-          { text: 'To protect yourself and escape from harm', isCorrect: true },
-          { text: 'To win a fight', isCorrect: false }
-        ]
-      },
-      {
-        text: 'What is the most vulnerable part of an attackers body?',
-        options: [
-          { text: 'arms', isCorrect: false },
-          { text: 'legs', isCorrect: false },
-          { text: 'shoulders', isCorrect: true }
-        ]
-      },
-      {
-        text: 'What should you do if someone grabs your wrist?',
-        options: [
-          { text: 'Try to overpower them', isCorrect: false },
-          { text: 'Pull your hand directly away from them', isCorrect: false },
           {
-            text: 'Rotate your wrist towards the attackers thumb and pull away',
+            label: 'Allowing the dough to rise before baking',
+            isCorrect: true
+          },
+          { label: 'Mixing the ingredients slowly', isCorrect: false }
+        ]
+      },
+      {
+        title: 'What type of yeast is most commonly used in baking?',
+        options: [
+          { label: 'Fresh yeast', isCorrect: false },
+          { label: 'Wild yeast', isCorrect: false },
+          { label: 'Active dry yeast and instant yeast', isCorrect: true },
+          { label: 'Liquid yeast', isCorrect: false }
+        ]
+      }
+    ],
+    [
+      {
+        title: 'Where does red tide occur?',
+        options: [
+          { label: 'in land', isCorrect: false },
+          { label: 'in air', isCorrect: false },
+          { label: 'in sea', isCorrect: true }
+        ]
+      },
+      {
+        title: 'What cause red tide?',
+        options: [
+          { label: 'bacteria', isCorrect: false },
+          { label: 'algae', isCorrect: true },
+          { label: 'virus', isCorrect: false }
+        ]
+      },
+      {
+        title: 'What is the other term for red tide?',
+        options: [
+          { label: 'harmful tide', isCorrect: false },
+          { label: 'harmful algal bloom', isCorrect: true },
+          { label: 'strangers tide', isCorrect: false }
+        ]
+      }
+    ],
+    [
+      {
+        title: 'The number of rows in a worksheet is',
+        options: [
+          { label: '36500', isCorrect: false },
+          { label: '5536', isCorrect: true },
+          { label: '256', isCorrect: false }
+        ]
+      },
+      {
+        title:
+          'When a formatted number does not fit within a cell, it displays"',
+        options: [
+          { label: '#####', isCorrect: true },
+          { label: '#DIV/0', isCorrect: false },
+          { label: '#DIV@', isCorrect: false }
+        ]
+      },
+      {
+        title: 'What is the other term for red tide?',
+        options: [
+          { label: 'harmful tide', isCorrect: true },
+          { label: 'harmful algal bloom', isCorrect: false },
+          { label: 'strangers tide', isCorrect: false }
+        ]
+      }
+    ],
+    [
+      {
+        title: 'What is the primary goal of self-defense?',
+        options: [
+          { label: 'To hurt the attacker', isCorrect: false },
+          {
+            label: 'To protect yourself and escape from harm',
+            isCorrect: true
+          },
+          { label: 'To win a fight', isCorrect: false }
+        ]
+      },
+      {
+        title: 'What is the most vulnerable part of an attackers body?',
+        options: [
+          { label: 'arms', isCorrect: false },
+          { label: 'legs', isCorrect: false },
+          { label: 'shoulders', isCorrect: true }
+        ]
+      },
+      {
+        title: 'What should you do if someone grabs your wrist?',
+        options: [
+          { label: 'Try to overpower them', isCorrect: false },
+          { label: 'Pull your hand directly away from them', isCorrect: false },
+          {
+            label:
+              'Rotate your wrist towards the attackers thumb and pull away',
             isCorrect: true
           }
         ]
@@ -215,7 +224,7 @@ const main = async () => {
     for (const questionData of questionsData[i]) {
       await prisma.question.create({
         data: {
-          text: questionData.text,
+          title: questionData.title,
           type: QuestionType.MULTIPLE_CHOICE,
           seminarId: seminar.id,
           options: {
@@ -229,10 +238,94 @@ const main = async () => {
   await prisma.cyclePeriod.create({
     data: {
       cycleId: cycle.id,
-      currentPeriod: CyclePeriodType.IDLE,
+      currentPeriod: CyclePeriodType.EVAL,
       startedAt: new Date()
     }
   })
+
+  type Evaluation = {
+    title: string
+    type: EvalType
+    questions: string[]
+  }
+
+  const evaluations: Evaluation[] = [
+    {
+      title: 'The Topic',
+      questions: [
+        'Nagakaigo gid ang topiko sa akon nga kinahanglan sa pangabuhi o trabaho.',
+        'Ang pagpasunod sang topiko mayo kag may yara nga sistema.',
+        'Ang presentasyon o demo nga gipakita nagasunod sa tinutuyo sang training.',
+        'Nagahatag sang oportunidad nga makapamangkot para nga mas maintindihan.'
+      ],
+      type: 'RATING'
+    },
+    {
+      title: 'The Trainer',
+      questions: [
+        'Gapakita sang iya nahibal-an sa topiko.',
+        'Sigurado siya nga matuod kag mapatihad ang iya ginasaysay nga impormasyon.',
+        'Matawhay ang pagpasunod sang iya topiko agud madali maintindihan.',
+        'Maayo siya magsaysay kag walagautay utay ang iya paghambal.',
+        'Makasabat siya sang pamangkot kag mapaintindi ang iya sabat sa tagpamalati.',
+        'Nagatahag sang inspirasyon sa tagpamalati agud nga mangin interesado sa topiko.'
+      ],
+      type: 'RATING'
+    },
+    {
+      title: 'The Facilitators',
+      questions: [
+        'Nagapakita sang ila propesyonalismo sa ila nga pagbulig sa training o seminar.',
+        'Matinahuron, pasensyoso kag mabinuligon sa mga nagabuylog sang paghanas.',
+        'Nagahatag sang matawhay kag maayo nga lugar para sa pagtuon sang bag-o nga impormasyon.',
+        'Ginamanehar ang bilog nga grupo agud nga matawhay ang dalagan sang training.'
+      ],
+      type: 'RATING'
+    },
+    {
+      title: ' The Accomodation and Food',
+      questions: [
+        'Maayo ang kalidad kag masustansya ang ila nga ginhatag nga pagkaon.',
+        'Ang pag-amuma nagahatag sa mga nagabuylog sang training sang katawhay.',
+        'Nagakaigo kag matawhay ang lugar nga ginhiwatan sang training. (Wala sang butang nga makadisturbo sa atensyon sang mga partisipante.)'
+      ],
+      type: 'RATING'
+    },
+    {
+      title: 'General Satisfaction',
+      questions: [
+        'Ini nga training nakapasar gid sa akon nga ekspektasyon.',
+        'Ini nga training isa sa mga manami nga training nga akon nasaksihan.',
+        'Ginbag-o sang training nga ini ang akon nabal-an kag padayunon ko ang ginahimo.'
+      ],
+      type: 'RATING'
+    },
+    {
+      title: 'Feedback',
+      questions: [
+        'Ano gid ang imo nagustuhan nga parte sa paghanas?',
+        'Ano pa gid ang imo gusto nga mayo nga idugang parte sa amon paghanas?'
+      ],
+      type: 'FEEDBACK'
+    }
+  ]
+
+  for (let i = 0; i < evaluations.length; i++) {
+    const evaluation = await prisma.eval.create({
+      data: {
+        title: evaluations[i].title,
+        type: evaluations[i].type
+      }
+    })
+    for (let j = 0; j < evaluations[i].questions.length; j++) {
+      await prisma.evalQuestion.create({
+        data: {
+          question: evaluations[i].questions[j],
+          evalId: evaluation.id
+        }
+      })
+    }
+  }
 }
 
 main()
@@ -240,6 +333,7 @@ main()
     await prisma.$disconnect()
   })
   .catch(async (error) => {
+    await prisma.$disconnect()
     console.error(error)
     process.exit(1)
   })

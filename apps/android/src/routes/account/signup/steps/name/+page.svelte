@@ -68,7 +68,8 @@
         autocomplete="first-name"
         type="text"
         error={givenNameError}
-        error-text={givenNameError}></md-outlined-text-field>
+        error-text={givenNameError}
+      ></md-outlined-text-field>
     </div>
     <div>
       <md-outlined-text-field
@@ -79,7 +80,8 @@
         autocomplete="last-name"
         type="text"
         error={familyNameError}
-        error-text={familyNameError}></md-outlined-text-field>
+        error-text={familyNameError}
+      ></md-outlined-text-field>
     </div>
     <div class="w-full flex justify-end">
       <md-filled-button disabled={loading} type="submit">Next</md-filled-button>

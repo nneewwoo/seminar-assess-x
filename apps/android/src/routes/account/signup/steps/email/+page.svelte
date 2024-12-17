@@ -77,7 +77,8 @@
         autocomplete="email"
         type="email"
         error={emailError}
-        error-text={emailError}></md-outlined-text-field>
+        error-text={emailError}
+      ></md-outlined-text-field>
     </div>
     <div class="w-full flex justify-end">
       <md-filled-button disabled={loading} type="submit">Next</md-filled-button>

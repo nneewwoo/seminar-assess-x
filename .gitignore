@@ -13,3 +13,4 @@ build
 .rust-analyzer
 
 vite.config.ts.timestamp*
+db

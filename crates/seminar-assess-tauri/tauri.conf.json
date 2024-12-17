@@ -3,7 +3,7 @@
   "productName": "Seminar Assess",
   "identifier": "com.seminar-assess.app",
   "build": {
-    "beforeDevCommand": "pnpm dev:android",
+    "beforeDevCommand": "pnpm turbo dev",
     "beforeBuildCommand": "pnpm build:android -- --mode development",
     "frontendDist": "../../apps/android/build",
     "devUrl": "http://localhost:1420"
@@ -21,12 +21,11 @@
     ]
   },
   "app": {
+    "withGlobalTauri": true,
     "windows": [
       {
         "title": "Seminar Assess",
-        "label": "main",
-        "width": 800,
-        "height": 600
+        "label": "main"
       }
     ],
     "security": {

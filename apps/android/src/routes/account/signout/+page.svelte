@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { SESSION_TOKEN } from '$lib/store'
+  import { sessionContext } from '$lib/state.svelte'
   import { navigateTo, useLocalStorage } from '$lib/utils'
   import { getApi } from '$lib/utils/fetch'
   import '@material/web/progress/circular-progress'
@@ -15,7 +15,7 @@
 
       if (data.success) {
         useLocalStorage('remove', 'session-token')
-        SESSION_TOKEN.set(undefined)
+        sessionContext.token = ''
         navigateTo('/account/signin/steps/email', undefined, {
           replaceState: true
         })

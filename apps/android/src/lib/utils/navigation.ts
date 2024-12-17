@@ -5,7 +5,8 @@ interface QueryProps {
 }
 
 interface Opts {
-  replaceState: boolean
+  replaceState?: boolean
+  invalidateAll?: boolean
 }
 
 const navigateTo = (url: string, query?: QueryProps, opts?: Opts) => {

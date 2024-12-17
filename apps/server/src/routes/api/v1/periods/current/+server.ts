@@ -1,13 +1,14 @@
+import { json, type RequestHandler } from '@sveltejs/kit'
 import prisma from '$lib/prisma'
-import { json } from '@sveltejs/kit'
 
-export const GET = async () => {
-  console.log('here')
-  const current = await prisma.cyclePeriod.findFirst({
-    orderBy: { startedAt: 'desc' }
-  })
+const POST: RequestHandler = async ({ request }) => {
+  const { cycleId } = await request.json()
+
+  const current = await prisma.cyclePeriod.findFirst({ where: { cycleId } })
   if (current) {
     return json({ success: true, body: { period: current.currentPeriod } })
   }
   return json({ success: false, body: { error: 'unknown' } })
 }
+
+export { POST }

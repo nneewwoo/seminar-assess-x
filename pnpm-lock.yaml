@@ -135,6 +135,9 @@ importers:
       mdui:
         specifier: ^2.1.3
         version: 2.1.3
+      on-screen-keyboard-detector:
+        specifier: ^2.3.0
+        version: 2.3.0(emittery@0.6.0)
       zod:
         specifier: ^3.23.8
         version: 3.23.8
@@ -638,6 +641,33 @@ packages:
 
   '@mdui/shared@1.0.7':
     resolution: {integrity: sha512-rs12tndL8Y4cy8eiGnkWvKMTHOTbwtHpfpFrPvnUm6ajLnAAaHjX7CJkOMjs5sh7cd+ez2Zm77MEgovKAWeeRQ==}
+
+  '@most/adapter@1.0.0':
+    resolution: {integrity: sha512-+ECkLCTgKqc+uFK7q/fp2elaZahNRS1Tjz0XAu5QOiMynxJt8qN8LR+fuSoRZdhzQ0/+4nWf44X/x2fWUKe8fQ==}
+
+  '@most/core@1.6.1':
+    resolution: {integrity: sha512-H989BS6v9QxSZRGPZlbomXTRpUU60iy76AHJoPveKtj27bE0Pv3mwMENRzNZijJK9ntUwhoJ0SYCoXaMCYuWEQ==}
+
+  '@most/disposable@1.3.0':
+    resolution: {integrity: sha512-0lCve1GmWlZrvTGQpMgTFTHH6uRtzM31jyYTIN7303XX4KoLCLWw9L6hfTYLLBtge6s+QyiBQVokAhy2GjNAUQ==}
+
+  '@most/dom-event@2.2.0':
+    resolution: {integrity: sha512-pEnXCyj7ZEymozyKX87k9r3rhEsG86nAGerYwZPcpbBNEvemQMtyTcxwRP2+UipTHRpTzukaWuOSx20yLRpKAQ==}
+
+  '@most/prelude@1.8.0':
+    resolution: {integrity: sha512-t1CcURpZzfmBA6fEWwqmCqeNzWAj1w2WqEmCk/2yXMe/p8Ut000wFmVKMy8A1Rl9VVxZEZ5nBHd/pU0dR4bv/w==}
+
+  '@most/scheduler@0.13.1':
+    resolution: {integrity: sha512-t14TLvEfUYPSLJQSLT/V5bQYxvKdLib8KFrz0hniOHZRoqyBgt6zhHKP1zywrEYQd9+sdhS5SZDnX9wAJ+xJxg==}
+
+  '@most/scheduler@1.3.0':
+    resolution: {integrity: sha512-bbJGyhbZxNqlkVjP8+YT9wIVMvYnpzWOzV8jZueqlTH2PJWewH2f54YziZn7/wWa6AJdN03H1vb8Tbi9GcA/cw==}
+
+  '@most/types@0.11.1':
+    resolution: {integrity: sha512-acP+xy7F4W50GAbpOmfdNgATPwCfMUSLmWEhUb4MHli9k0qAtN828LTVPgK3AsTBh/Fkx0TulbgW+H2t06BsKA==}
+
+  '@most/types@1.1.0':
+    resolution: {integrity: sha512-v2trqAWu1jqP4Yd/CyI1O6mAeJyygK1uJOrFRpNPkPZIaYw4khA4EQe4WzcyOFKuXdiP8qAqaxGtXXJJ2LZdXg==}
 
   '@napi-rs/wasm-runtime@0.2.5':
     resolution: {integrity: sha512-kwUxR7J9WLutBbulqg1dfOrMTwhMdXLdcGUhcbCcGwnPLt3gz19uHVdwH1syKVDbE022ZS2vZxOWflFLS0YTjw==}
@@ -1305,6 +1335,10 @@ packages:
   electron-to-chromium@1.5.65:
     resolution: {integrity: sha512-PWVzBjghx7/wop6n22vS2MLU8tKGd4Q91aCEGhG/TYmW6PP5OcSXcdnxTe1NNt0T66N8D6jxh4kC8UsdzOGaIw==}
 
+  emittery@0.6.0:
+    resolution: {integrity: sha512-6EMRGr9KzYWp8DzHFZsKVZBsMO6QhAeHMeHND8rhyBNCHKMLpgW9tZv40bwN3rAIKRS5CxcK8oLRKUJSB9h7yQ==}
+    engines: {node: '>=10'}
+
   emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
 
@@ -1939,6 +1973,11 @@ packages:
     resolution: {integrity: sha512-RSn9F68PjH9HqtltsSnqYC1XXoWe9Bju5+213R98cNGttag9q9yAOTzdbsqvIa7aNm5WffBZFpWYr2aWrklWAw==}
     engines: {node: '>= 6'}
 
+  on-screen-keyboard-detector@2.3.0:
+    resolution: {integrity: sha512-QJsruGIaSXHryZ7aYAR+B6YYubwxL+81ss189yNs4DdE5qpkx51AO6+H2bXTNrNzvxPtRRSG/a03nXnj1KxtwQ==}
+    peerDependencies:
+      emittery: ^0.6.0
+
   once@1.4.0:
     resolution: {integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==}
 
@@ -2105,6 +2144,9 @@ packages:
 
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
+
+  ramda@0.27.2:
+    resolution: {integrity: sha512-SbiLPU40JuJniHexQSAgad32hfwd+DRUdwF2PlVuI5RZD0/vahUco7R8vD86J/tcEKKF9vZrUVwgtmGCqlCKyA==}
 
   read-cache@1.0.0:
     resolution: {integrity: sha512-Owdv/Ft7IjOgm/i0xvNDZ1LrRANRfew4b2prF3OWMQLxLfu3bS8FVhCsrSCMK4lR56Y9ya+AThoTpDCTxCmpRA==}
@@ -2763,6 +2805,43 @@ snapshots:
       ssr-window: 4.0.2
       tslib: 2.8.1
 
+  '@most/adapter@1.0.0':
+    dependencies:
+      '@most/types': 1.1.0
+
+  '@most/core@1.6.1':
+    dependencies:
+      '@most/disposable': 1.3.0
+      '@most/prelude': 1.8.0
+      '@most/scheduler': 1.3.0
+      '@most/types': 1.1.0
+
+  '@most/disposable@1.3.0':
+    dependencies:
+      '@most/prelude': 1.8.0
+      '@most/types': 1.1.0
+
+  '@most/dom-event@2.2.0':
+    dependencies:
+      '@most/scheduler': 0.13.1
+      '@most/types': 0.11.1
+
+  '@most/prelude@1.8.0': {}
+
+  '@most/scheduler@0.13.1':
+    dependencies:
+      '@most/prelude': 1.8.0
+      '@most/types': 0.11.1
+
+  '@most/scheduler@1.3.0':
+    dependencies:
+      '@most/prelude': 1.8.0
+      '@most/types': 1.1.0
+
+  '@most/types@0.11.1': {}
+
+  '@most/types@1.1.0': {}
+
   '@napi-rs/wasm-runtime@0.2.5':
     dependencies:
       '@emnapi/core': 1.3.1
@@ -3395,6 +3474,8 @@ snapshots:
   eastasianwidth@0.2.0: {}
 
   electron-to-chromium@1.5.65: {}
+
+  emittery@0.6.0: {}
 
   emoji-regex@8.0.0: {}
 
@@ -4064,6 +4145,16 @@ snapshots:
 
   object-hash@3.0.0: {}
 
+  on-screen-keyboard-detector@2.3.0(emittery@0.6.0):
+    dependencies:
+      '@most/adapter': 1.0.0
+      '@most/core': 1.6.1
+      '@most/dom-event': 2.2.0
+      '@most/prelude': 1.8.0
+      '@most/scheduler': 1.3.0
+      emittery: 0.6.0
+      ramda: 0.27.2
+
   once@1.4.0:
     dependencies:
       wrappy: 1.0.2
@@ -4198,6 +4289,8 @@ snapshots:
   punycode@2.3.1: {}
 
   queue-microtask@1.2.3: {}
+
+  ramda@0.27.2: {}
 
   read-cache@1.0.0:
     dependencies:

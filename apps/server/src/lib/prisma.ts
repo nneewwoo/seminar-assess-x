@@ -1,6 +1,5 @@
-import { PrismaClient, type User } from '@prisma/client'
-import bcrypt from 'bcrypt'
 import { hash } from '@node-rs/argon2'
+import { PrismaClient, type User } from '@prisma/client'
 
 declare global {
   var __prisma: import('@prisma/client').PrismaClient

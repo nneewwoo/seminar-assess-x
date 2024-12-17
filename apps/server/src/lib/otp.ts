@@ -1,4 +1,3 @@
-import { env } from '$env/dynamic/private'
 import { generateHOTP, verifyHOTP } from '@oslojs/otp'
 
 const encode = (email: string) => new TextEncoder().encode(email)
