@@ -13,6 +13,7 @@ export type EvaluationCategory = {
   id: string
   type: 'RATING' | 'FEEDBACK'
   title: string
+  description: string
   _count: {
     questions: number
   }

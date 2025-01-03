@@ -7,7 +7,7 @@
   import type { EvaluationCategory } from '$lib/types'
 
   appBarContext.canGoBack = false
-  appBarContext.title = 'Rate and provide your feedback'
+  appBarContext.title = 'Share your thoughts. Your opinion matters!'
   appBarContext.variant = 'large'
 
   const getEvalCategories = async () => {
@@ -35,11 +35,7 @@
           <div class="py-4">
             <h2 class="skeleton">Skeleton</h2>
             <div>
-              <span class="skeleton"
-                >Lorem ipsum dolor sit amet consectetur.</span>
-            </div>
-            <div>
-              <span class="skeleton"> Commodi omnis quos atque? </span>
+              <span class="skeleton">Lorem ipsum dolor sit.</span>
             </div>
           </div>
           <div
@@ -59,8 +55,7 @@
           <md-filled-card class="p-4">
             <div class="py-4">
               <h2>{category.title}</h2>
-              <span
-                >Lorem, ipsum dolor sit amet consectetur adipisicing elit.</span>
+              <span>{category.description}</span>
             </div>
             <div
               class="w-full border-b border-[var(--md-sys-color-on-background)] opacity-20">

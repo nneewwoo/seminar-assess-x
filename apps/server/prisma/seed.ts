@@ -24,29 +24,30 @@ const main = async () => {
     {
       title: 'Literacy',
       course: 'Education',
-      description: ''
+      description: 'Enhancing reading, writing, and comprehension skills.'
     },
     {
       title: 'Bakes and Pastries',
       course: 'Food Technology',
-      description: ''
+      description: 'Techniques in baking breads, cakes, and pastries.'
     },
     {
       title: 'Fisheries Management',
       course: 'Fisheries',
-      description: ''
+      description: 'Knowledge and skills for sustainable fisheries management.'
     },
     {
       title: 'Electronic Spreadsheet',
       course: 'Computer Science',
-      description: ''
+      description: 'Basics and advanced features of electronic spreadsheets for data management.'
     },
     {
       title: 'Self-Defense',
       course: 'Criminology',
-      description: ''
+      description: 'Practical techniques for personal safety and self-defense.'
     }
   ]
+  
 
   const questionsData = [
     [
@@ -246,75 +247,84 @@ const main = async () => {
   type Evaluation = {
     title: string
     type: EvalType
-    questions: string[]
+    questions: string[],
+    description: string
   }
 
   const evaluations: Evaluation[] = [
     {
       title: 'The Topic',
+      description: 'Evaluate the relevance, organization, and presentation of the training topic.',
       questions: [
-        'Nagakaigo gid ang topiko sa akon nga kinahanglan sa pangabuhi o trabaho.',
-        'Ang pagpasunod sang topiko mayo kag may yara nga sistema.',
-        'Ang presentasyon o demo nga gipakita nagasunod sa tinutuyo sang training.',
-        'Nagahatag sang oportunidad nga makapamangkot para nga mas maintindihan.'
+        'The topic is relevant to my personal or work needs.',
+        'The delivery of the topic is well-organized and systematic.',
+        'The presentation or demo shown aligns with the training objectives.',
+        'There are opportunities to ask questions for better understanding.'
       ],
       type: 'RATING'
     },
     {
       title: 'The Trainer',
+      description: 'Assess the trainer’s knowledge, delivery, and ability to engage participants.',
       questions: [
-        'Gapakita sang iya nahibal-an sa topiko.',
-        'Sigurado siya nga matuod kag mapatihad ang iya ginasaysay nga impormasyon.',
-        'Matawhay ang pagpasunod sang iya topiko agud madali maintindihan.',
-        'Maayo siya magsaysay kag walagautay utay ang iya paghambal.',
-        'Makasabat siya sang pamangkot kag mapaintindi ang iya sabat sa tagpamalati.',
-        'Nagatahag sang inspirasyon sa tagpamalati agud nga mangin interesado sa topiko.'
+        'The trainer demonstrates knowledge of the topic.',
+        'The trainer ensures that the information provided is accurate and credible.',
+        'The trainer delivers the topic clearly and understandably.',
+        'The trainer explains well and speaks smoothly.',
+        'The trainer answers questions clearly and makes the answers understandable to the participants.',
+        'The trainer inspires participants to become interested in the topic.'
       ],
       type: 'RATING'
     },
     {
       title: 'The Facilitators',
+      description: 'Evaluate the professionalism, helpfulness, and group management of the facilitators.',
       questions: [
-        'Nagapakita sang ila propesyonalismo sa ila nga pagbulig sa training o seminar.',
-        'Matinahuron, pasensyoso kag mabinuligon sa mga nagabuylog sang paghanas.',
-        'Nagahatag sang matawhay kag maayo nga lugar para sa pagtuon sang bag-o nga impormasyon.',
-        'Ginamanehar ang bilog nga grupo agud nga matawhay ang dalagan sang training.'
+        'The facilitators show professionalism in assisting with the training or seminar.',
+        'The facilitators are respectful, patient, and helpful to the participants.',
+        'The facilitators create a conducive and comfortable environment for learning new information.',
+        'The facilitators manage the entire group to ensure a smooth flow of the training.'
       ],
       type: 'RATING'
     },
     {
-      title: ' The Accomodation and Food',
+      title: 'The Accommodation and Food',
+      description: 'Provide feedback on the quality of the food and the comfort of the accommodations.',
       questions: [
-        'Maayo ang kalidad kag masustansya ang ila nga ginhatag nga pagkaon.',
-        'Ang pag-amuma nagahatag sa mga nagabuylog sang training sang katawhay.',
-        'Nagakaigo kag matawhay ang lugar nga ginhiwatan sang training. (Wala sang butang nga makadisturbo sa atensyon sang mga partisipante.)'
+        'The food provided is of good quality and nutritious.',
+        'The accommodations ensure the comfort of the training participants.',
+        'The training venue is appropriate and comfortable. (There are no distractions for the participants.)'
       ],
       type: 'RATING'
     },
     {
       title: 'General Satisfaction',
+      description: 'Rate your overall satisfaction with the training experience.',
       questions: [
-        'Ini nga training nakapasar gid sa akon nga ekspektasyon.',
-        'Ini nga training isa sa mga manami nga training nga akon nasaksihan.',
-        'Ginbag-o sang training nga ini ang akon nabal-an kag padayunon ko ang ginahimo.'
+        'This training has met my expectations.',
+        'This training is one of the best I have attended.',
+        'This training has improved my knowledge, and I will continue applying what I have learned.'
       ],
       type: 'RATING'
     },
     {
       title: 'Feedback',
+      description: 'Share your personal feedback and suggestions for improvement.',
       questions: [
-        'Ano gid ang imo nagustuhan nga parte sa paghanas?',
-        'Ano pa gid ang imo gusto nga mayo nga idugang parte sa amon paghanas?'
+        'What part of the training did you like the most?',
+        'What else would you like us to improve or add to our training?'
       ],
       type: 'FEEDBACK'
     }
-  ]
+  ];
+  
 
   for (let i = 0; i < evaluations.length; i++) {
     const evaluation = await prisma.eval.create({
       data: {
         title: evaluations[i].title,
-        type: evaluations[i].type
+        type: evaluations[i].type,
+        description: evaluations[i].description
       }
     })
     for (let j = 0; j < evaluations[i].questions.length; j++) {

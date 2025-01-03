@@ -2,7 +2,7 @@
   import { appBarContext } from '$lib/state.svelte'
 
   appBarContext.canGoBack = false
-  appBarContext.title = 'Pre'
+  appBarContext.title = "Let's see what you know!"
   appBarContext.variant = 'large'
 </script>
 

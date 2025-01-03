@@ -138,6 +138,7 @@ model Session {
 model Eval {
   id                String              @id @default(uuid())
   title             String
+  description       String
   type              EvalType
   questions         EvalQuestion[]
   EvalResponseDraft EvalResponseDraft[]

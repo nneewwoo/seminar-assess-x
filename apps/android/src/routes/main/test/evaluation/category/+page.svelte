@@ -12,7 +12,12 @@
   import 'mdui/components/collapse'
   import 'mdui/components/collapse-item'
 
-  import { appBarContext, appContext, sessionContext } from '$lib/state.svelte'
+  import {
+    appBarContext,
+    appContext,
+    sessionContext,
+    snackBarContext
+  } from '$lib/state.svelte'
   import { page } from '$app/stores'
   import { postApi } from '$lib/utils'
 
@@ -129,6 +134,11 @@
     )
 
     loading = ''
+    console.log(snackBarContext.element)
+    if (snackBarContext.element) {
+      snackBarContext.message = 'Your feedback is in! We appreciate it.'
+      snackBarContext.element.open = true
+    }
   }
 
   const ratings = [

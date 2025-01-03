@@ -13,7 +13,8 @@
 
   import TopAppBar from '$lib/components/TopAppBar.svelte'
   import { page } from '$app/stores'
-  import { appContext } from '$lib/state.svelte'
+  import { appContext, navBarContext, snackBarContext } from '$lib/state.svelte'
+  import Snackbar from '$lib/components/Snackbar.svelte'
 
   let { children } = $props()
 
@@ -46,21 +47,23 @@
 <mdui-layout class="h-full w-full flex flex-col">
   <TopAppBar />
   <mdui-layout-main class="h-full main" bind:this={appContext.mainElement}>
-    <div class="pb-8">{@render children()}</div>
+    <div class="pb-8">
+      {@render children()}
+    </div>
+    <Snackbar bind:element={snackBarContext.element} />
   </mdui-layout-main>
   {#if !appContext.isKeyboardVisible}
     <mdui-navigation-bar
+      bind:this={navBarContext.element}
       hide={!Object.values(routes).some((route) => path.startsWith(route.url))}
       label-visibility="labeled"
-      value={path}
-    >
+      value={path}>
       {#each Object.entries(routes) as [key, route]}
         <mdui-navigation-bar-item href={route.url} {key} value={route.url}>
           {route.name}
           <md-icon
             slot="active-icon"
-            class="material-symbols-rounded filled bg-transparent"
-          >
+            class="material-symbols-rounded filled bg-transparent">
             {route.icon}
           </md-icon>
           <md-icon slot="icon" class="material-symbols-rounded bg-transparent">

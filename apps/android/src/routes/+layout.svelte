@@ -7,6 +7,7 @@
   import '@material/web/icon/icon'
   import { appBarContext, appContext } from '$lib/state.svelte'
   import { onMount } from 'svelte'
+  import Snackbar from '$lib/components/Snackbar.svelte'
 
   let { children } = $props()
 

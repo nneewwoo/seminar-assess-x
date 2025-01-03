@@ -42,7 +42,8 @@
   const init = async () => {
     if (typeof window !== 'undefined') {
       if (window.navigator.onLine) {
-        sessionContext.token = useLocalStorage('get', LocalKeys.SESSION_TOKEN)
+        sessionContext.token =
+          useLocalStorage('get', LocalKeys.SESSION_TOKEN) || ''
 
         if (!sessionContext.token) {
           navigateTo('/account/signin/steps/email')
@@ -64,7 +65,7 @@
           }
         }
       } else {
-        emit('has-internet', false)
+        emit('has-internet', 'false')
       }
     }
   }
@@ -93,10 +94,6 @@
       }
       return
     }
-
-    if (sessionContext.token) {
-      appContext.isInitialLoad = false
-    }
   }
 
   onMount(() => {
@@ -111,10 +108,8 @@
   })
 
   onMount(async () => {
-    if (appContext.isInitialLoad) {
-      await init()
-      await postInit()
-    }
+    await init()
+    await postInit()
   })
 </script>
 
